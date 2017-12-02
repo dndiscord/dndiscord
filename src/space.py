@@ -1,4 +1,7 @@
 import random 
+import time
+import copy
+
 from src.Objects.Key import Key
 from src import Constants
 
@@ -71,7 +74,19 @@ def solvable(num_keys, root):
         found_keys = reachable_keys(reached_rooms)
     return len(found_keys) == num_keys
 
-def generate(num_keys, keys, root, room):
+def make_rooms(data):
+    while True:
+        try:
+            root = Room(copy.deepcopy(data))
+            root.populate()
+            generate(time.time(), len(Constants.exit_names), 0, root, root)
+            return root
+        except:
+            print("mapgen failed, trying again...")
+
+def generate(start_time, num_keys, keys, root, room):
+    if time.time() - start_time > 3:
+        raise "out of time"
     all_keys = (1 << num_keys) - 1
     if keys == all_keys: # all keys placed
         return solvable(num_keys, root)
@@ -90,10 +105,12 @@ def generate(num_keys, keys, root, room):
                 key_item = Key(Constants.exit_names[key])
                 if place:
                     room.items.append(key_item)
-                    if generate(num_keys, keys | 1 << key, root, next_room):
+                    if generate(start_time, num_keys, keys | 1 << key, root, next_room):
                         return True
                     room.items.pop()
                 else:
-                    if generate(num_keys, keys, root, next_room):
+                    if generate(start_time, num_keys, keys, root, next_room):
                         return True
+
+
 
