@@ -19,7 +19,7 @@ class Room:
         num_exits = random.randint(1, 3)
         if num_exits > len(self.data.exit_names):
             return
-        self.desc = random.sample(self.data.room_names, 1)[0]
+        self.desc = random.sample(self.data.rooms, 1)[0]
         dirs = random.sample(self.data.exit_names, num_exits)
         for direction in dirs:
             self.data.exit_names.remove(direction)
@@ -48,11 +48,11 @@ class Room:
                 exit.dest.show()
 
 class Exit:
-    def __init__(self, data, src, direction):
-        self.data = data
+    def __init__(self, src, direction):
+        self.data = src.data
         self.src = src
         self.direction = direction
-        self.dest = Room(data, self)
+        self.dest = Room(src.data, self)
 
     def show(self):
         print("door named " + self.direction + " to " + self.dest.desc)

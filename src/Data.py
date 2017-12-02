@@ -1,5 +1,5 @@
 from src import Constants
-
+import copy
 
 class Data:
 
