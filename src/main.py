@@ -25,13 +25,15 @@ async def on_ready():
 async def print_message(channel, to_print):
     await client.send_message(channel, to_print)
 
-
 @client.event
 async def on_message(message):
     #TODO set up global gamestate enum, based on gamestate call in class receive methods.
-
+    
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
+    
+    elif Constants.gamestage == GameStage.CHARACTER_CREATE:
+        CreateCharacter.getMessage(message)
 
     elif message.content.startswith(Constants.restart):
         Restart.Restart.restart()
