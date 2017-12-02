@@ -70,8 +70,8 @@ data = Data.Data({
          }
     )]
 })
-#room = make_rooms(data)
-#room.show()
+room = make_rooms(data)
+room.show()
 creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
