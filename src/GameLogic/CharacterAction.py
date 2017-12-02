@@ -8,8 +8,9 @@ class CharacterAction(GenericGameLogic):
     async def do_action(self, message):
         input_components = message.content.split(' ')
         hero_name = input_components[0].split(':')[1]
-        item_name = message.content.split[1]
-        target_name = message.content.split[2]
+        item_name = input_components[1]
+        target_name = input_components[2]
+        print("{}, {}, {}".format(hero_name,item_name,target_name))
         character = self.data.get_character(hero_name)
         target = self.data.get_from_current_scenario(target_name)
         item = next(iter([i for i in character.inventory if i.name == item_name] or []),None)

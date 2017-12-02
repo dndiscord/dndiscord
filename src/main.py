@@ -4,6 +4,8 @@ import asyncio
 import os
 import copy
 
+from src.Data import GameStage
+
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 
@@ -32,8 +34,9 @@ async def on_message(message):
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
     
-    elif Constants.gamestage == GameStage.CHARACTER_CREATE:
-        CreateCharacter.getMessage(message)
+    elif data.gamestage == GameStage.CHARACTER_CREATE:
+        creator = CreateCharacter.CreateCharacter(print_message, data)
+        creator.getMessage(message)
 
     elif message.content.startswith(Constants.restart):
         Restart.Restart.restart()
@@ -47,6 +50,7 @@ async def on_message(message):
 
     elif message.content.startswith(Constants.partyAction):
         roomChange = RoomChange.RoomChange(print_message, data)
+
 data = Data.Data({
     Constants.items: [],
     Constants.characters: [],

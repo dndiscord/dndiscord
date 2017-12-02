@@ -1,27 +1,25 @@
-from src import Constants
+from src import Constants, Data
 from src.GameLogic.GenericGameLogic import GenericGameLogic
 from src.Objects.Character import Character
-from src.main import data
+from src.Objects.Item import Item
 
 
 class CreateCharacter(GenericGameLogic):
-    
-    def __init__(self,print_method, data):
+    def __init__(self, print_method, data):
         super().__init__(print_method, data)
 
-#    def messageReceive(self,message):
-        
 
-    def getMessage(message):
-        if message == testing:
-            createCharacter("carlos","human", "drunk")
+    def getMessage(self, message):
+        if message.content == "testing":
+            self.assign_stats("carlos", "human", "drunk")
 
-    def createCharacter(name,race,occupation):
+    def assign_stats(self, name, race, occupation):
         hp = 120
         spd = 15
         attk = 10
         mp = 15
         crt = 2
+        value = 500
 
         if race == 'elf': 
             spd += 10
@@ -50,6 +48,13 @@ class CreateCharacter(GenericGameLogic):
             attk +=10
             mp +=5
             spd +=5
+            item = Item({
+                Constants.name: "Sword",
+                Constants.description: "A simple sword",
+                Constants.value: 100,
+                Constants.effect: "stab",
+                Constants.health: 200
+            })
             
         if occupation == 'thief':
             spd += 10
@@ -70,15 +75,23 @@ class CreateCharacter(GenericGameLogic):
         elif occupation == 'hunter':
             attk += 5
             crt +=5
-       
 
         descript = "You are " + name + " the  " + race + " " + occupation + "."
-
-        characterDict = {Constants.health: hp, Constants.attack: attk, Constants.speed: spd, Constants.mana: mp, Constants.crit:crt, Constants.name:name, Constants.description: descript}
-        newCharacter = Character(characterDict)
-        data.addCharacter(newCharacter)
+        characterDict = {Constants.health: hp,
+                         Constants.value: value,
+                         Constants.attack: attk,
+                         Constants.speed: spd,
+                         Constants.mana: mp,
+                         Constants.crit:crt,
+                         Constants.name:name,
+                         Constants.description: descript,
+                         Constants.inventory: [item]
+                         }
         print("success")
-        
+        newCharacter = Character(characterDict)
+        self.data.add_character(newCharacter)
+        self.data.gamestage = Data.GameStage.MOVE
+
 
 
 

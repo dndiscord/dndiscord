@@ -17,7 +17,7 @@ class Data:
         self.characters = game_start_data[Constants.characters]
         self.current_scenario = game_start_data[Constants.current_scenario]
         self.exit_names = copy.copy(Constants.exit_names)
-        self.gamestate = GameStage.CHARACTER_CREATE
+        self.gamestage = GameStage.CHARACTER_CREATE
 
     def add_character(self, character):
         self.characters.append(character)
