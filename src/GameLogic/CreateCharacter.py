@@ -12,6 +12,8 @@ class CreateCharacter(GenericGameLogic):
     def getMessage(self, message):
         if message.content == "testing":
             self.assign_stats("carlos", "human", "drunk")
+        
+
 
     def assign_stats(self, name, race, occupation):
         hp = 120
@@ -26,23 +28,52 @@ class CreateCharacter(GenericGameLogic):
             attk += 5
             mp +=10
             crt +=2
+             item = Item({
+                Constants.name: "Bow",
+                Constants.description: "A simple wooden bow",
+                Constants.value: 100,
+                Constants.effect: "shoot",
+                Constants.health: 200
+            })
        
         elif race == 'dwarf':
             spd -= 5
             hp += 90
             mp -= 5
-
+            item = Item({
+                Constants.name: "Hammer",
+                Constants.description: "A hammer that weighs almost as much as a cow",
+                Constants.value: 100,
+                Constants.effect: "pound",
+                Constants.health: 200
+            })
+ 
         elif race == 'troll':
             hp += 90
             attk += 10
             spd -= 10
             mp -=15
+             item = Item({
+                Constants.name: "Club",
+                Constants.description: "A massive club that looks like an uprooted tree",
+                Constants.value: 100,
+                Constants.effect: "smash",
+                Constants.health: 200
+            })
             
         elif race == 'gnome':
             hp -=20
             spd +=20
             attk += 5
             crt+=5
+            item = Item({
+                Constants.name: "Spear",
+                Constants.description: "A basic spear",
+                Constants.value: 80,
+                Constants.effect: "impale",
+                Constants.health: 200
+            })
+ 
         elif race == 'human':
             hp += 20
             attk +=10
@@ -52,7 +83,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.name: "Sword",
                 Constants.description: "A simple sword",
                 Constants.value: 100,
-                Constants.effect: "stab",
+                Constants.effect: "slash",
                 Constants.health: 200
             }),Item({
                 Constants.name: "Shield",
@@ -83,7 +114,7 @@ class CreateCharacter(GenericGameLogic):
             attk += 5
             crt +=5
 
-        descript = "You are " + name + " the  " + race + " " + occupation + "."
+        descript = "You are " + name + " the " + race + " " + occupation + "."
         characterDict = {Constants.health: hp,
                          Constants.value: value,
                          Constants.attack: attk,
