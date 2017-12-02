@@ -7,12 +7,37 @@ from src.Objects.Item import Item
 class CreateCharacter(GenericGameLogic):
     def __init__(self, print_method, data):
         super().__init__(print_method, data)
-
+        self.name = "default"
+        self.race = "default"
+        self.occupation = "default"
 
     def getMessage(self, message):
-        if message.content == "testing":
+        text = message.content
+        if text == "testing":
             self.assign_stats("carlos", "human", "drunk")
-        
+
+        if textstartswith('!credits'):
+            await self.printMethod(message.channel, "Invalid command")
+        elif name == "default"
+            self.name = text
+        elif race == "default"
+            if text == "elf" || text == "dwarf" || text == "human" || text == "gnome" || text == "troll":
+                self.race = text
+        elif occupation == "default"
+            if text == "drunk" || text == "smith" || text == "hunter" || text == "librarian" || text == "thief":
+                self.race = text
+
+        if name == "default":
+            await self.printMethod(message.channel, "Enter your character's name:")
+        elif race == "default":
+            await self.printMethod(message.channel, "Enter your character's race: (elf, human, dwarf, orc, troll, gnome)")
+        elif occupation == "default": 
+            await self.printMethod(message.channel, "Enter your character's occupation (thief, librarian, hunter, smith, drunk:)")
+        else
+            await self.printMethod(message.channel, "You are " + self.name + " the " + self.race + " " + self.occupation + ".")
+            data.gamestage = data.GameStage.move
+
+
 
 
     def assign_stats(self, name, race, occupation):
@@ -28,7 +53,7 @@ class CreateCharacter(GenericGameLogic):
             attk += 5
             mp +=10
             crt +=2
-             item = Item({
+            item = Item({
                 Constants.name: "Bow",
                 Constants.description: "A simple wooden bow",
                 Constants.value: 100,
@@ -114,14 +139,14 @@ class CreateCharacter(GenericGameLogic):
             attk += 5
             crt +=5
 
-        descript = "You are " + name + " the " + race + " " + occupation + "."
+        descript = "You are " + self.name + " the " + self.race + " " + self.occupation + "."
         characterDict = {Constants.health: hp,
                          Constants.value: value,
                          Constants.attack: attk,
                          Constants.speed: spd,
                          Constants.mana: mp,
                          Constants.crit:crt,
-                         Constants.name:name,
+                         Constants.name:self.name,
                          Constants.description: descript,
                          Constants.inventory: items
                          }
