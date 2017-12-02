@@ -38,8 +38,6 @@ class CreateCharacter(GenericGameLogic):
             data.gamestage = data.GameStage.move
 
 
-
-
     def assign_stats(self, name, race, occupation):
         hp = 120
         spd = 15
@@ -53,13 +51,13 @@ class CreateCharacter(GenericGameLogic):
             attk += 5
             mp +=10
             crt +=2
-            item = Item({
+            items = [Item({
                 Constants.name: "Bow",
                 Constants.description: "A simple wooden bow",
                 Constants.value: 100,
                 Constants.effect: "shoot",
                 Constants.health: 200
-            })
+            })]
        
         elif race == 'dwarf':
             spd -= 5
@@ -78,26 +76,26 @@ class CreateCharacter(GenericGameLogic):
             attk += 10
             spd -= 10
             mp -=15
-             item = Item({
+            item = [Item({
                 Constants.name: "Club",
                 Constants.description: "A massive club that looks like an uprooted tree",
                 Constants.value: 100,
                 Constants.effect: "smash",
                 Constants.health: 200
-            })
+            })]
             
         elif race == 'gnome':
             hp -=20
             spd +=20
             attk += 5
             crt+=5
-            item = Item({
+            items = [Item({
                 Constants.name: "Spear",
                 Constants.description: "A basic spear",
                 Constants.value: 80,
                 Constants.effect: "impale",
                 Constants.health: 200
-            })
+            })]
  
         elif race == 'human':
             hp += 20
@@ -110,7 +108,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.value: 100,
                 Constants.effect: "slash",
                 Constants.health: 200
-            }),Item({
+            }), Item({
                 Constants.name: "Shield",
                 Constants.description: "A simple shield",
                 Constants.value: 50,

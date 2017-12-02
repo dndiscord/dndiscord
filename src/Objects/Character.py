@@ -11,10 +11,10 @@ class Character(GenericObject):
         self.speed = characterconfig[Constants.speed]
         self.mana = characterconfig[Constants.mana]
 
-    async def use_item(self, item, target):
+    def use_item(self, item, target):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
         target.receive(result)
-        return result[Constants.effect]
+        return result[Constants.description]
 
 

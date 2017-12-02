@@ -4,15 +4,15 @@ import asyncio
 import os
 import copy
 
-from src.Data import GameStage
-
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
+sys.setrecursionlimit(10000)
 
+from src.Objects.Character import Character
+from src.Data import GameStage
 from src import Constants, Data
 from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange
-from src.space import Room
-from pprint import pprint
+from src.space import Room, make_rooms
 
 client = discord.Client()
 
@@ -55,9 +55,19 @@ data = Data.Data({
     Constants.items: [],
     Constants.characters: [],
     Constants.rooms: copy.copy(Constants.room_names),
-    Constants.current_scenario: []
+    Constants.current_scenario: [Character(
+        {Constants.health: 5,
+         Constants.value: 50,
+         Constants.attack: 0,
+         Constants.speed: 0,
+         Constants.mana: 0,
+         Constants.crit: 0,
+         Constants.name: "Target_Dummy",
+         Constants.description: "An unassuming target dummy",
+         Constants.inventory: []
+         }
+    )]
 })
-room = Room(data)
-room.populate()
-room.show()
+#room = make_rooms(data)
+#room.show()
 client.run(sys.argv[1])

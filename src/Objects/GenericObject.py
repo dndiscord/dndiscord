@@ -11,6 +11,6 @@ class GenericObject:
 
     def receive(self, change):
         self.health += change[Constants.health]
-        if change[Constants.description] is None:
+        if change[Constants.effect] is None:
             return
         self.description += " [{}]".format(change[Constants.effect])
