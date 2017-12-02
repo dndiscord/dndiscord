@@ -1,12 +1,22 @@
 import sys
 import discord
 import asyncio
+import os
+
+lib_path = os.path.abspath(os.path.join('..'))
+sys.path.append(lib_path)
 
 from src import Constants
 from src.GameLogic import CreateCharacter
 from src.GameLogic import Restart
+from src.space import Room
+from pprint import pprint
 
 client = discord.Client()
+
+room = Room()
+room.populate()
+room.show()
 
 @client.event
 async def on_ready():
