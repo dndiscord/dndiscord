@@ -1,4 +1,4 @@
-import random 
+import random
 import time
 import copy
 
@@ -96,5 +96,21 @@ def generate(num_keys, root):
         locked = locked_doors(rooms, keys)
         lock = random.choice(locked)
         room = random.choice(rooms)
+        key = Key(lock.direction)
+        room.items.append(key)
+
+def generate2(num_keys, root):
+    rooms = [root]
+    while not solvable(num_keys, root):
+        keys = reachable_keys(rooms)
+        rooms = reachable_depths(root, keys)
+        random.shuffle(rooms)
+        q = queue.PriorityQueue()
+        for room in rooms:
+            q.put(room)
+        rooms = list(map(lambda x: x[1], rooms))
+        locked = locked_doors(rooms, keys)
+        lock = random.choice(locked)
+        room = q.get()[1]
         key = Key(lock.direction)
         room.items.append(key)
