@@ -23,15 +23,15 @@ class Room:
         self.desc = random.sample(self.data.rooms, 1)[0]
         self.data.rooms.remove(self.desc)
         dirs = random.sample(self.data.exit_names, num_exits)
-        for direction in dirs:
-            self.data.exit_names.remove(direction)
-        for direction in dirs:
-            exit = Exit(self, direction)
+        for name in dirs:
+            self.data.exit_names.remove(name)
+        for name in dirs:
+            exit = Exit(self, name)
             exit.dest.populate()
             self.exits.append(exit)
 
     def describe(self):
-        return self.desc + " with doors " + str(list(map(lambda x: x.direction, self.exits))) + " and keys " + str(list(map(lambda k: k.exit, self.items)))
+        return self.desc + " with doors " + str(list(map(lambda x: x.name + " door", self.exits))) + " and keys " + str(list(map(lambda k: k.exit + " key", self.items)))
 
     def show(self):
         print(self.describe())
@@ -41,19 +41,19 @@ class Room:
                 exit.dest.show()
 
 class Exit:
-    def __init__(self, src, direction):
+    def __init__(self, src, name):
         self.data = src.data
         self.src = src
-        self.direction = direction
+        self.name = name
         self.dest = Room(src.data, self)
 
     def show(self):
-        print("door named " + self.direction + " to " + self.dest.desc)
+        print("door named " + self.name + " to " + self.dest.desc)
 
 def reachable_rooms(room, keys):
     reached = [room]
     for exit in room.exits:
-        if exit.direction in map(lambda k: k.exit, keys):
+        if exit.name in map(lambda k: k.exit, keys):
             if exit.dest != room:
                 reached.extend(reachable_rooms(exit.dest, keys))
     return reached
@@ -68,7 +68,7 @@ def locked_doors(rooms, keys):
     reached = []
     for room in rooms:
         for exit in room.exits:
-            if exit.direction not in map(lambda k: k.exit, keys):
+            if exit.name not in map(lambda k: k.exit, keys):
                 reached.append(exit)
     return reached
 
@@ -96,7 +96,7 @@ def generate(num_keys, root):
         locked = locked_doors(rooms, keys)
         lock = random.choice(locked)
         room = random.choice(rooms)
-        key = Key(lock.direction)
+        key = Key(lock.name)
         room.items.append(key)
 
 def generate2(num_keys, root):
@@ -112,5 +112,5 @@ def generate2(num_keys, root):
         locked = locked_doors(rooms, keys)
         lock = random.choice(locked)
         room = q.get()[1]
-        key = Key(lock.direction)
+        key = Key(lock.name)
         room.items.append(key)
