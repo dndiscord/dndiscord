@@ -8,7 +8,7 @@ class CreateCharacter(GenericGameLogic):
 
 #    def messageReceive(self,message):
         
-    def createCharacter(race,occupation):
+    def createCharacter(name,race,occupation):
         hp = 120
         spd = 15
         attk = 10
@@ -62,7 +62,11 @@ class CreateCharacter(GenericGameLogic):
         elif occupation == 'hunter':
             attk += 5
             crt +=5
-
         
+        descript = "You are " + name + " the  " + race + " " + occupation + "." 
+        characterDict = {Constants.health: hp, Constants.attack: atk, Constants.speed: spd, Constants.mana: mp, Constants.crit:crt, Constants.name:name, Constants.description: descript}
+        newCharacter = Character(characterDict)
+        data.addCharacter(newCharacter)
+
 
 
