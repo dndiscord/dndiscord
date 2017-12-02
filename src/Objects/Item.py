@@ -8,4 +8,4 @@ class Item(GenericObject):
         self.effect = itemConfig[Constants.effect]
 
     def activate(self,user,isCrit):
-        return {Constants.effect: "{} used {} to do {}".format(user.name,self.name,self.effect)}
+        return {Constants.effect: "{} used {} to {}".format(user.name,self.name,self.effect)}

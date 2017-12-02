@@ -8,7 +8,7 @@ lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 
 from src import Constants, Data
-from src.GameLogic import CreateCharacter, CharacterAction, Restart
+from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange
 from src.space import Room
 from pprint import pprint
 
@@ -45,10 +45,13 @@ async def on_message(message):
         actionPrompt = CharacterAction.CharacterAction(print_message, data)
         await actionPrompt.do_action(message)
 
+    elif message.content.startswith(Constants.partyAction):
+        roomChange = RoomChange.RoomChange(print_message, data)
 data = Data.Data({
     Constants.items: [],
     Constants.characters: [],
-    Constants.rooms: copy.copy(Constants.room_names)
+    Constants.rooms: copy.copy(Constants.room_names),
+    Constants.current_scenario: []
 })
 room = Room(data)
 room.populate()

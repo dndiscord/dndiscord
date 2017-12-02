@@ -7,3 +7,10 @@ class GenericObject:
         self.name = objectconfig[Constants.name]
         self.description = objectconfig[Constants.description]
         self.value = objectconfig[Constants.value]
+        self.health = objectconfig[Constants.health]
+
+    def receive(self, change):
+        self.health += change[Constants.health]
+        if change[Constants.description] is None:
+            return
+        self.description += " [{}]".format(change[Constants.effect])

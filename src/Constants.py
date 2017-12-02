@@ -18,6 +18,7 @@ restart = "!restart"
 createCharacter = "!createCharacter"
 heroAction = "!hero:"
 start = "!start"
+partyAction = "!party"
 
 #Database categories
 items = 'items'
