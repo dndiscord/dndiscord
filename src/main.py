@@ -8,11 +8,11 @@ from src.Data import GameStage
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
+sys.setrecursionlimit(10000)
 
 from src import Constants, Data
 from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange
-from src.space import Room
-from pprint import pprint
+from src.space import Room, generate
 
 client = discord.Client()
 
@@ -59,5 +59,6 @@ data = Data.Data({
 })
 room = Room(data)
 room.populate()
+#generate(len(Constants.exit_names), 0, room, room)
 room.show()
 client.run(sys.argv[1])
