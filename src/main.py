@@ -4,6 +4,8 @@ import sys
 
 import discord
 
+from src.space import make_rooms
+
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 sys.setrecursionlimit(10000)
@@ -31,7 +33,9 @@ async def print_message(channel, to_print):
 @client.event
 async def on_message(message):
     #TODO set up global gamestate enum, based on gamestate call in class receive methods.
-    if message.author == "DnDiscord#4355": return
+    if str(message.author) == "DnDiscord#4355":
+        print("skipping")
+        return
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
     

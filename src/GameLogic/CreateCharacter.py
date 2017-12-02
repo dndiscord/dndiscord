@@ -24,17 +24,17 @@ class CreateCharacter(GenericGameLogic):
                 self.race = text
         elif self.occupation == "default":
             if text == "drunk" or text == "smith" or text == "hunter" or text == "librarian" or text == "thief":
-                self.race = text
+                self.occupation = text
 
         if self.name == "default":
             await self.printMethod(message.channel, "Enter your character's name:")
         elif self.race == "default":
-            await self.printMethod(message.channel, "Enter your character's race: (elf, human, dwarf, orc, troll, gnome)")
+            await self.printMethod(message.channel, "Enter your character's race: (elf, human, dwarf, troll, gnome)")
         elif self.occupation == "default":
-            await self.printMethod(message.channel, "Enter your character's occupation (thief, librarian, hunter, smith, drunk:)")
+            await self.printMethod(message.channel, "Enter your character's occupation (thief, librarian, hunter, smith, drunk)")
         else:
             await self.printMethod(message.channel, "You are " + self.name + " the " + self.race + " " + self.occupation + ".")
-            self.data.gamestage = self.data.GameStage.move
+            self.data.gamestage = Data.GameStage.MOVE
 
 
     def assign_stats(self, name, race, occupation):
