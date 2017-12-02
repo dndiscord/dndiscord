@@ -7,5 +7,5 @@ class CharacterAction(GenericGameLogic):
 
     def do_action(self, content):
         hero_name = content.split(' ')[0].split(':')[1]
-        self.print_message(hero_name+" did something")
+        self.print_message(" did something")
 
