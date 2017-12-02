@@ -22,8 +22,8 @@ async def on_ready():
     print('------')
 
 
-async def print_message(message):
-    await client.send_message(message.channel, message)
+async def print_message(channel, to_print):
+    await client.send_message(channel, to_print)
 
 
 @client.event
@@ -37,11 +37,11 @@ async def on_message(message):
         Restart.Restart.restart()
 
     elif message.content.startswith(Constants.createCharacter):
-        CreateCharacter.CreateCharacter(print_message,data)
+        CreateCharacter.CreateCharacter(print_message, data)
 
     elif message.content.startswith(Constants.heroAction):
-        actionPrompt = CharacterAction.CharacterAction(print_message,data)
-        actionPrompt.do_action(message.content)
+        actionPrompt = CharacterAction.CharacterAction(print_message, data)
+        await actionPrompt.do_action(message)
 
 data = Data.Data({
     Constants.items: [],
@@ -51,5 +51,4 @@ data = Data.Data({
 room = Room(data)
 room.populate()
 room.show()
-
 client.run(sys.argv[1])

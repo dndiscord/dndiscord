@@ -3,5 +3,6 @@ class GenericGameLogic:
         self.printMethod = print_method
         self.data = data
 
-    async def print_message(self, message):
-        self.printMethod(message)
+    def print_message(self, channel, to_print):
+        print("here 1")
+        self.printMethod(channel, to_print)
