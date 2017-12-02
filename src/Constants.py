@@ -7,7 +7,7 @@ speed = "speed"
 mana = "mana"
 activate = "activate"
 effect = "effect"
-
+health = "health"
 
 #Commands
 restart = "!restart"
