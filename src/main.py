@@ -2,6 +2,10 @@ import sys
 import discord
 import asyncio
 
+from src import Constants
+from src.GameLogic import CreateCharacter
+from src.GameLogic import Restart
+
 client = discord.Client()
 
 @client.event
@@ -18,5 +22,12 @@ async def on_message(message):
 
     elif message.content.startswith('!make character'):
         await client.send_message(message.channel, 'Starting character creation')
+
+    elif message.content.startswith(Constants.restart):
+        Restart.restart()
+
+    elif message.content.startswith(Constants.createCharacter):
+        CreateCharacter.CreateCharacter(message.channel)
+
 
 client.run(sys.argv[1])
