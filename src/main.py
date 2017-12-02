@@ -5,6 +5,7 @@ import os
 import copy
 
 from src.Data import GameStage
+from src.Objects.Character import Character
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
@@ -55,7 +56,18 @@ data = Data.Data({
     Constants.items: [],
     Constants.characters: [],
     Constants.rooms: copy.copy(Constants.room_names),
-    Constants.current_scenario: []
+    Constants.current_scenario: [Character(
+        {Constants.health: 5,
+         Constants.value: 50,
+         Constants.attack: 0,
+         Constants.speed: 0,
+         Constants.mana: 0,
+         Constants.crit: 0,
+         Constants.name: "Target_Dummy",
+         Constants.description: "An unassuming target dummy",
+         Constants.inventory: []
+         }
+    )]
 })
 room = Room(data)
 room.populate()

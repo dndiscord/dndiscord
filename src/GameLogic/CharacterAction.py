@@ -11,7 +11,7 @@ class CharacterAction(GenericGameLogic):
         hero_name = input_components[0].split(':')[1]
         character = self.data.get_character(hero_name)
         if character is None:
-            await self.printMethod(message.channel, "{} does not exist!".format(hero_name))
+            await self.printMethod(message.channel, "Hero {} does not exist!".format(hero_name))
             return
 
         if input_components[1] == Constants.status:
@@ -21,7 +21,6 @@ class CharacterAction(GenericGameLogic):
 
         item_name = input_components[1]
         target_name = input_components[2]
-        print("{}, {}, {}".format(hero_name,item_name,target_name))
         target = self.data.get_from_current_scenario(target_name)
         item = next(iter([i for i in character.inventory if i.name == item_name] or []), None)
         if item is None:
