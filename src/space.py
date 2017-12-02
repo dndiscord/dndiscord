@@ -25,7 +25,7 @@ class Room:
         for name in dirs:
             self.data.exit_names.remove(name)
         for name in dirs:
-            exit = Exit(self, name, random.random() > 0.5)
+            exit = Exit(self, name, random.random() > 0.2)
             exit.dest.populate()
             self.exits.append(exit)
 
@@ -56,7 +56,7 @@ class Exit:
 def reachable_rooms(room, keys):
     reached = [room]
     for exit in room.exits:
-        if exit.name in map(lambda k: k.exit, keys):
+        if not exit.locked or exit.name in map(lambda k: k.exit, keys):
             if exit.dest != room:
                 reached.extend(reachable_rooms(exit.dest, keys))
     return reached
@@ -104,20 +104,3 @@ def generate(num_keys, root):
         key = Key(lock.name, room)
         room.items.append(key)
 
-# places the keys in the room that's the least accessible from the start
-# might be better to place it in the room that's the least accessible from the current room
-def generate2(num_keys, root):
-    rooms = [root]
-    while not solvable(num_keys, root):
-        keys = reachable_keys(rooms)
-        rooms = reachable_depths(root, keys)
-        random.shuffle(rooms)
-        q = queue.PriorityQueue()
-        for room in rooms:
-            q.put(room)
-        rooms = list(map(lambda x: x[1], rooms))
-        locked = locked_doors(rooms, keys)
-        lock = random.choice(locked)
-        room = q.get()[1]
-        key = Key(lock.name, room)
-        room.items.append(key)
