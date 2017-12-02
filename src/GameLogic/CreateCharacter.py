@@ -3,7 +3,6 @@ from src.GameLogic.GenericGameLogic import GenericGameLogic
 
 class CreateCharacter(GenericGameLogic):
     
-    dict characterstats
     def __init__(self,channel):
         super(self, channel)
         
@@ -24,51 +23,48 @@ class CreateCharacter(GenericGameLogic):
             mp +=10
             crt +=2
        
-        elif race == 'dwarf'
+        elif race == 'dwarf':
             spd -= 5
             hp += 90
             mp -= 5
 
-        elif race == 'troll'
+        elif race == 'troll':
             hp += 90
             attk += 10
             spd -= 10
             mp -=15
             
-        elif race == 'gnome'
+        elif race == 'gnome':
             hp -=20
             spd +=20
             attk += 5
             crt+=5
-        elif race == 'human'
+        elif race == 'human':
             hp += 20
             attk +=10
             mp +=5
             spd +=5
             
-        if occupation == 'thief'
+        if occupation == 'thief':
             spd += 10
             hp -=10
             attk += 5
             crt +=1
 
-        elif occupation == 'smith'
+        elif occupation == 'smith':
             hp += 20
         
-        elif occupation == 'drunk'
+        elif occupation == 'drunk':
             attk -= 4
             crt += 4
-        elif occupation == 'librarian'
+        elif occupation == 'librarian':
             hp += 5
             mp += 10
 
-        elif occupation = 'hunter'
+        elif occupation == 'hunter':
             attk += 5
             crt +=5
 
         
 
 
-    def createChar(hp,spd,attk,mp,crt):
-        #characterstats{ health: 15,speed: 15, attack: 15, mana: 15, crit: 2}
-        #create char
