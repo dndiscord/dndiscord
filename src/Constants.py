@@ -22,3 +22,4 @@ characters = 'characters'
 
 # room stuff
 exit_names = ["blue door", "purple door", "red door", "green door", "orange door", "black door", "white door", "yellow door"]
+room_names = ["big house", "town square", "garden", "dungeon", "supermarket", "town hall", "corner store", "small house", "abandoned cemetary"]
