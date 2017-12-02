@@ -29,4 +29,4 @@ class Data:
         return next(iter([i for i in self.items if i.name == name] or []), None)
 
     def get_from_current_scenario(self,name):
-        return next(iter([i for i in self.current_scenario if i.name == name]))
+        return next(iter([i for i in self.current_scenario if i.name == name]), None)

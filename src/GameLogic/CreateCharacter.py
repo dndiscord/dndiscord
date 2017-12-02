@@ -48,13 +48,20 @@ class CreateCharacter(GenericGameLogic):
             attk +=10
             mp +=5
             spd +=5
-            item = Item({
+            items = [Item({
                 Constants.name: "Sword",
                 Constants.description: "A simple sword",
                 Constants.value: 100,
                 Constants.effect: "stab",
                 Constants.health: 200
+            }),Item({
+                Constants.name: "Shield",
+                Constants.description: "A simple shield",
+                Constants.value: 50,
+                Constants.effect: "block",
+                Constants.health: 500
             })
+            ]
             
         if occupation == 'thief':
             spd += 10
@@ -85,9 +92,8 @@ class CreateCharacter(GenericGameLogic):
                          Constants.crit:crt,
                          Constants.name:name,
                          Constants.description: descript,
-                         Constants.inventory: [item]
+                         Constants.inventory: items
                          }
-        print("success")
         newCharacter = Character(characterDict)
         self.data.add_character(newCharacter)
         self.data.gamestage = Data.GameStage.MOVE
