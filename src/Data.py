@@ -17,6 +17,7 @@ class Data:
         self.characters = game_start_data[Constants.characters]
         self.exit_names = copy.copy(Constants.exit_names)
         self.gamestate = GameStage.CHARACTER_CREATE
+        self.current_scenario = game_start_data[Constants.current_scenario]
 
     def add_character(self, character):
         self.characters.append(character)
@@ -25,6 +26,7 @@ class Data:
         return next(iter([c for c in self.characters if c.name == name] or []), None)
 
     def get_item(self, name):
-        return next(iter([i for i in self.items if i.name == name] or []),None)
+        return next(iter([i for i in self.items if i.name == name] or []), None)
 
-
+    def get_from_current_scenario(self,name):
+        return next(iter([i for i in self.current_scenario if i.name == name]))

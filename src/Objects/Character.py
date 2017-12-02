@@ -12,12 +12,9 @@ class Character(GenericObject):
         self.speed = characterconfig[Constants.speed]
         self.mana = characterconfig[Constants.mana]
 
-    def use_item(self, item_name):
-        # If the requested item isnt in the inventory
-        item = next(iter([item for item in self.inventory if item.name == item_name] or []), None)
-        if item is None:
-            self
-        else:
-            item.activate(self, True, "A fireball is thrown")
+    async def use_item(self, item, target):
+        # Result contains a payload of data to apply to the target
+        result = item.activate(self, True)
+        return result[Constants.effect]
 
 
