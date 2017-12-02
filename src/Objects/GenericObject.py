@@ -8,9 +8,10 @@ class GenericObject:
         self.description = objectconfig[Constants.description]
         self.value = objectconfig[Constants.value]
         self.health = objectconfig[Constants.health]
+        self.attack = objectconfig[Constants.attack]
 
     def receive(self, change):
-        self.health += change[Constants.health]
+        self.health -= change[Constants.attack]
         if change[Constants.effect] is None:
             return
         self.description += " [{}]".format(change[Constants.effect])

@@ -7,7 +7,6 @@ class Character(GenericObject):
         super().__init__(characterconfig)
         self.crit = characterconfig[Constants.crit]
         self.inventory = characterconfig[Constants.inventory]
-        self.attack = characterconfig[Constants.attack]
         self.speed = characterconfig[Constants.speed]
         self.mana = characterconfig[Constants.mana]
 

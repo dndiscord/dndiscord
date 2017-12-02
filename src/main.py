@@ -1,8 +1,8 @@
-import sys
-import discord
-import asyncio
-import os
 import copy
+import os
+import sys
+
+import discord
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
@@ -11,10 +11,10 @@ sys.setrecursionlimit(10000)
 from src.Objects.Character import Character
 from src.Data import GameStage
 from src import Constants, Data
-from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange
-from src.space import Room, make_rooms
+from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange, StatusReport
 
 client = discord.Client()
+
 
 @client.event
 async def on_ready():
@@ -27,25 +27,27 @@ async def on_ready():
 async def print_message(channel, to_print):
     await client.send_message(channel, to_print)
 
+
 @client.event
 async def on_message(message):
     #TODO set up global gamestate enum, based on gamestate call in class receive methods.
-    
+    if message.author == "DnDiscord#4355": return
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
     
     elif data.gamestage == GameStage.CHARACTER_CREATE:
-        creator = CreateCharacter.CreateCharacter(print_message, data)
-        creator.getMessage(message)
+        await creator.getMessage(message)
 
     elif message.content.startswith(Constants.restart):
         Restart.Restart.restart()
 
     elif message.content.startswith(Constants.createCharacter):
-        CreateCharacter.CreateCharacter(print_message, data)
+        data.gamestage = Data.GameStage.CHARACTER_CREATE
+
+    elif message.content.startswith(Constants.status):
+        await statusPrompt.print_current_statuses(message)
 
     elif message.content.startswith(Constants.heroAction):
-        actionPrompt = CharacterAction.CharacterAction(print_message, data)
         await actionPrompt.do_action(message)
 
     elif message.content.startswith(Constants.partyAction):
@@ -56,7 +58,7 @@ data = Data.Data({
     Constants.characters: [],
     Constants.rooms: copy.copy(Constants.room_names),
     Constants.current_scenario: [Character(
-        {Constants.health: 5,
+        {Constants.health: 500,
          Constants.value: 50,
          Constants.attack: 0,
          Constants.speed: 0,
@@ -70,4 +72,7 @@ data = Data.Data({
 })
 #room = make_rooms(data)
 #room.show()
+creator = CreateCharacter.CreateCharacter(print_message, data)
+actionPrompt = CharacterAction.CharacterAction(print_message, data)
+statusPrompt = StatusReport.StatusReport(print_message, data)
 client.run(sys.argv[1])

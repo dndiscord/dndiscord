@@ -19,7 +19,7 @@ createCharacter = "!createCharacter"
 heroAction = "!hero:"
 start = "!start"
 partyAction = "!party"
-status = 'status'
+status = '!status'
 
 #Database categories
 items = 'items'

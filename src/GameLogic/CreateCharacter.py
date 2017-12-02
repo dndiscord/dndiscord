@@ -11,31 +11,30 @@ class CreateCharacter(GenericGameLogic):
         self.race = "default"
         self.occupation = "default"
 
-    def getMessage(self, message):
+    async def getMessage(self, message):
         text = message.content
-        if text == "testing":
-            self.assign_stats("carlos", "human", "drunk")
-
-        if textstartswith('!credits'):
+        # if text == "testing":
+        #     self.assign_stats("carlos", "human", "drunk")
+        if text.startswith('!credits'):
             await self.printMethod(message.channel, "Invalid command")
-        elif name == "default"
+        elif self.name == "default":
             self.name = text
-        elif race == "default"
-            if text == "elf" || text == "dwarf" || text == "human" || text == "gnome" || text == "troll":
+        elif self.race == "default":
+            if text == "elf" or text == "dwarf" or text == "human" or text == "gnome" or text == "troll":
                 self.race = text
-        elif occupation == "default"
-            if text == "drunk" || text == "smith" || text == "hunter" || text == "librarian" || text == "thief":
+        elif self.occupation == "default":
+            if text == "drunk" or text == "smith" or text == "hunter" or text == "librarian" or text == "thief":
                 self.race = text
 
-        if name == "default":
+        if self.name == "default":
             await self.printMethod(message.channel, "Enter your character's name:")
-        elif race == "default":
+        elif self.race == "default":
             await self.printMethod(message.channel, "Enter your character's race: (elf, human, dwarf, orc, troll, gnome)")
-        elif occupation == "default": 
+        elif self.occupation == "default":
             await self.printMethod(message.channel, "Enter your character's occupation (thief, librarian, hunter, smith, drunk:)")
-        else
+        else:
             await self.printMethod(message.channel, "You are " + self.name + " the " + self.race + " " + self.occupation + ".")
-            data.gamestage = data.GameStage.move
+            self.data.gamestage = self.data.GameStage.move
 
 
     def assign_stats(self, name, race, occupation):
@@ -99,7 +98,7 @@ class CreateCharacter(GenericGameLogic):
  
         elif race == 'human':
             hp += 20
-            attk +=10
+            attk += 10
             mp +=5
             spd +=5
             items = [Item({
@@ -107,7 +106,8 @@ class CreateCharacter(GenericGameLogic):
                 Constants.description: "A simple sword",
                 Constants.value: 100,
                 Constants.effect: "slash",
-                Constants.health: 200
+                Constants.health: 200,
+                Constants.attack: 20
             }), Item({
                 Constants.name: "Shield",
                 Constants.description: "A simple shield",
