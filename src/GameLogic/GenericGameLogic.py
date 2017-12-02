@@ -1,6 +1,6 @@
 class GenericGameLogic:
-    def __init__(self, userCommunication, data):
-        self.printMethod = userCommunication
+    def __init__(self, print_method, data):
+        self.printMethod = print_method
         self.data = data
 
     async def print_message(self, message):

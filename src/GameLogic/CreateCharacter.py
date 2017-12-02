@@ -3,11 +3,9 @@ from src.GameLogic.GenericGameLogic import GenericGameLogic
 
 class CreateCharacter(GenericGameLogic):
     
-    def __init__(self,channel):
-        super(self, channel)
-        
+    def __init__(self,print_method, data):
+        super().__init__(print_method, data)
 
-        
 #    def messageReceive(self,message):
         
     def createCharacter(race,occupation):
