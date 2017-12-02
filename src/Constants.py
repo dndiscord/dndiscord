@@ -1,6 +1,7 @@
 #Object config
 crit = "crit"
 name = "name"
+attack = "attack"
 description = "description"
 value = "value"
 speed = "speed"
@@ -8,6 +9,7 @@ mana = "mana"
 activate = "activate"
 effect = "effect"
 health = "health"
+inventory = "inventory"
 
 #Commands
 restart = "!restart"
