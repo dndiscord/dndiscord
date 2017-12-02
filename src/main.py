@@ -4,12 +4,12 @@ import sys
 
 import discord
 
-from src.space import make_rooms
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 sys.setrecursionlimit(10000)
 
+from src.space import make_rooms
 from src.Objects.Character import Character
 from src.Data import GameStage
 from src import Constants, Data
@@ -37,7 +37,7 @@ async def on_message(message):
         return
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
-    
+
     elif data.gamestage == GameStage.CHARACTER_CREATE:
         await creator.getMessage(message)
 
