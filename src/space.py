@@ -20,6 +20,7 @@ class Room:
         if num_exits > len(self.data.exit_names):
             return
         self.desc = random.sample(self.data.rooms, 1)[0]
+        self.data.rooms.remove(self.desc)
         dirs = random.sample(self.data.exit_names, num_exits)
         for direction in dirs:
             self.data.exit_names.remove(direction)
@@ -38,7 +39,7 @@ class Room:
                 self.items.append(key)
 
     def describe(self):
-        return self.desc + " with doors at " + str(list(map(lambda x: x.direction, self.exits)))
+        return self.desc + " with doors " + str(list(map(lambda x: x.direction, self.exits))) + " and keys " + str(list(map(lambda k: k.exit.direction, self.items)))
 
     def show(self):
         print(self.describe())
