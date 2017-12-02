@@ -17,3 +17,7 @@ createCharacter = "!createCharacter"
 #Database categories
 items = 'items'
 rooms = 'rooms'
+
+
+# room stuff
+exit_names = ["blue door", "purple door", "red door", "green door", "orange door", "black door", "white door", "yellow door"]
