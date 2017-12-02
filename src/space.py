@@ -1,7 +1,6 @@
 import random 
-from Objects.Key import Key
-
-exit_names = ["blue door", "purple door", "red door", "green door", "orange door", "black door", "white door", "yellow door"]
+from src.Objects.Key import Key
+from src import Constants
 
 class Room:
     def __init__(self, parent=None):
@@ -17,12 +16,12 @@ class Room:
 
     def _populate_inner(self, back, keys):
         num_exits = random.randint(1, 3)
-        if num_exits > len(exit_names):
+        if num_exits > len(Constants.exit_names):
             return
         self.desc = "a plain room" #TODO
-        dirs = random.sample(exit_names, num_exits)
+        dirs = random.sample(Constants.exit_names, num_exits)
         for direction in dirs:
-            exit_names.remove(direction)
+            Constants.exit_names.remove(direction)
         random.shuffle(dirs)
         for direction in dirs:
             exit = Exit(self, direction)

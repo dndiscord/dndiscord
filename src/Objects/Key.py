@@ -1,4 +1,4 @@
-from Objects.Item import Item
+from src.Objects.Item import Item
 
 class Key(Item):
     def __init__(self, exit):
