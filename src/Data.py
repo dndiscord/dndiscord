@@ -7,6 +7,7 @@ class Data:
         self.items = game_start_data[Constants.items]
         self.rooms = game_start_data[Constants.rooms]
         self.characters = game_start_data[Constants.characters]
+        self.exit_names = copy.copy(Constants.exit_names)
 
     def add_character(self, character):
         self.characters.append(character)

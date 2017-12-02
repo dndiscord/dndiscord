@@ -2,6 +2,7 @@ import sys
 import discord
 import asyncio
 import os
+import copy
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
@@ -12,10 +13,6 @@ from src.space import Room
 from pprint import pprint
 
 client = discord.Client()
-
-room = Room()
-room.populate()
-room.show()
 
 @client.event
 async def on_ready():
@@ -49,6 +46,10 @@ async def on_message(message):
 data = Data.Data({
     Constants.items: [],
     Constants.characters: [],
-    Constants.rooms: []
+    Constants.rooms: copy.copy(Constants.room_names)
 })
+room = Room(data)
+room.populate()
+room.show()
+
 client.run(sys.argv[1])

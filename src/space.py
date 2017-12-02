@@ -3,7 +3,8 @@ from src.Objects.Key import Key
 from src import Constants
 
 class Room:
-    def __init__(self, parent=None):
+    def __init__(self, data, parent=None):
+        self.data = data
         self.populated = False
         self.desc = "unpopulated"
         self.exits = []
@@ -16,12 +17,12 @@ class Room:
 
     def _populate_inner(self, back, keys):
         num_exits = random.randint(1, 3)
-        if num_exits > len(Constants.exit_names):
+        if num_exits > len(self.data.exit_names):
             return
-        self.desc = "a plain room" #TODO
-        dirs = random.sample(Constants.exit_names, num_exits)
+        self.desc = random.sample(self.data.room_names, 1)[0]
+        dirs = random.sample(self.data.exit_names, num_exits)
         for direction in dirs:
-            Constants.exit_names.remove(direction)
+            self.data.exit_names.remove(direction)
         random.shuffle(dirs)
         for direction in dirs:
             exit = Exit(self, direction)
@@ -47,10 +48,11 @@ class Room:
                 exit.dest.show()
 
 class Exit:
-    def __init__(self, src, direction):
+    def __init__(self, data, src, direction):
+        self.data = data
         self.src = src
         self.direction = direction
-        self.dest = Room(self)
+        self.dest = Room(data, self)
 
     def show(self):
         print("door named " + self.direction + " to " + self.dest.desc)
