@@ -4,13 +4,11 @@ import asyncio
 import os
 import copy
 
-from src.Data import GameStage
-from src.Objects.Character import Character
-
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 sys.setrecursionlimit(10000)
 
+from src.Objects.Character import Character
 from src.Data import GameStage
 from src import Constants, Data
 from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange
