@@ -1,4 +1,7 @@
+from src import Constants
 from src.GameLogic.GenericGameLogic import GenericGameLogic
+from src.Objects.Character import Character
+from src.main import data
 
 
 class CreateCharacter(GenericGameLogic):
@@ -64,7 +67,7 @@ class CreateCharacter(GenericGameLogic):
             crt +=5
         
         descript = "You are " + name + " the  " + race + " " + occupation + "." 
-        characterDict = {Constants.health: hp, Constants.attack: atk, Constants.speed: spd, Constants.mana: mp, Constants.crit:crt, Constants.name:name, Constants.description: descript}
+        characterDict = {Constants.health: hp, Constants.attack: attk, Constants.speed: spd, Constants.mana: mp, Constants.crit:crt, Constants.name:name, Constants.description: descript}
         newCharacter = Character(characterDict)
         data.addCharacter(newCharacter)
 

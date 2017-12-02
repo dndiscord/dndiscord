@@ -1,6 +1,7 @@
 from src import Constants
 import copy
 
+
 class Data:
 
     def __init__(self, game_start_data):
@@ -13,7 +14,7 @@ class Data:
         self.characters.append(character)
 
     def get_character(self, name):
-        return [c for c in self.characters if c.name == name]
+        return next(iter([c for c in self.characters if c.name == name] or []), None)
 
     def get_item(self, name):
-        return [i for i in self.items if i.name == name]
+        return next(iter([i for i in self.items if i.name == name] or []),None)
