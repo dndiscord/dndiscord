@@ -7,37 +7,37 @@ from src.Objects.Item import Item
 class CreateCharacter(GenericGameLogic):
     def __init__(self, print_method, data):
         super().__init__(print_method, data)
-        self.name = "default"
-        self.race = "default"
-        self.occupation = "default"
+        self.traits = {}
+
+    def configured(self, user, trait):
+        return user in self.traits.keys() and trait in self.traits[user].keys()
 
     async def getMessage(self, message):
         text = message.content
+        user = message.author.name
         # if text == "testing":
         #     self.assign_stats("carlos", "human", "drunk")
-        if text.startswith('!credits'):
-            await self.printMethod(message.channel, "Invalid command")
-        elif self.name == "default":
-            self.name = text
-        elif self.race == "default":
+        if not self.configured(user, 'name'):
+            self.traits[user] = {}
+            self.traits[user]['name'] = text
+            await self.printMethod(message.channel, "{}, enter your character's race: (elf, human, dwarf, troll, gnome)".format(user))
+
+        elif not self.configured(user, 'race'):
             if text == "elf" or text == "dwarf" or text == "human" or text == "gnome" or text == "troll":
-                self.race = text
-        elif self.occupation == "default":
+                self.traits[user]['race'] = text
+                await self.printMethod(message.channel,
+                                       "{}, enter your character's occupation (thief, librarian, hunter, smith, drunk)".format(user))
+
+        elif not self.configured(user, 'occupation'):
             if text == "drunk" or text == "smith" or text == "hunter" or text == "librarian" or text == "thief":
-                self.occupation = text
+                self.traits[user]['occupation'] = text
+                current_user = self.traits[user]
+                await self.printMethod(message.channel, "{}, you are {}, the {} {}."
+                                       .format(user, current_user['name'], current_user['race'], current_user['occupation']))
+                self.assign_stats(current_user['race'], current_user['occupation'], current_user['name'])
+                self.data.gamestage = Data.GameStage.MOVE
 
-        if self.name == "default":
-            await self.printMethod(message.channel, "Enter your character's name:")
-        elif self.race == "default":
-            await self.printMethod(message.channel, "Enter your character's race: (elf, human, dwarf, troll, gnome)")
-        elif self.occupation == "default":
-            await self.printMethod(message.channel, "Enter your character's occupation (thief, librarian, hunter, smith, drunk)")
-        else:
-            await self.printMethod(message.channel, "You are " + self.name + " the " + self.race + " " + self.occupation + ".")
-            self.assign_stats()
-            self.data.gamestage = Data.GameStage.MOVE
-
-    def assign_stats(self):
+    def assign_stats(self,race,occupation, name):
         hp = 120
         spd = 15
         attk = 10
@@ -45,25 +45,25 @@ class CreateCharacter(GenericGameLogic):
         crt = 2
         value = 500
 
-        if self.race == 'elf':
+        if race == 'elf':
             spd += 10
             attk += 5
-            mp +=10
-            crt +=2
+            mp += 10
+            crt += 2
             items = [Item({
                 Constants.name: "Bow",
                 Constants.description: "A simple wooden bow",
                 Constants.value: 100,
                 Constants.effect: "shoot",
                 Constants.health: 200,
-                Constants.attack:50
+                Constants.attack: 50
             })]
        
-        elif self.race == 'dwarf':
+        elif race == 'dwarf':
             spd -= 5
             hp += 90
             mp -= 5
-            item = Item({
+            items = Item({
                 Constants.name: "Hammer",
                 Constants.description: "A hammer that weighs almost as much as a cow",
                 Constants.value: 100,
@@ -72,12 +72,12 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100
             })
  
-        elif self.race == 'troll':
+        elif race == 'troll':
             hp += 90
             attk += 10
             spd -= 10
             mp -=15
-            item = [Item({
+            items = [Item({
                 Constants.name: "Club",
                 Constants.description: "A massive club that looks like an uprooted tree",
                 Constants.value: 100,
@@ -86,7 +86,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100
             })]
             
-        elif self.race == 'gnome':
+        elif race == 'gnome':
             hp -=20
             spd +=20
             attk += 5
@@ -100,7 +100,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100
             })]
  
-        elif self.race == 'human':
+        elif race == 'human':
             hp += 20
             attk += 10
             mp +=5
@@ -122,27 +122,27 @@ class CreateCharacter(GenericGameLogic):
             })
             ]
             
-        if self.occupation == 'thief':
+        if occupation == 'thief':
             spd += 10
             hp -=10
             attk += 5
             crt +=1
 
-        elif self.occupation == 'smith':
+        elif occupation == 'smith':
             hp += 20
         
-        elif self.occupation == 'drunk':
+        elif occupation == 'drunk':
             attk -= 4
             crt += 4
-        elif self.occupation == 'librarian':
+        elif occupation == 'librarian':
             hp += 5
             mp += 10
 
-        elif self.occupation == 'hunter':
+        elif occupation == 'hunter':
             attk += 5
             crt +=5
 
-        descript = "You are " + self.name + " the " + self.race + " " + self.occupation + "."
+        descript = "You are " + name + " the " + race + " " + occupation + "."
         print("here")
         characterDict = {Constants.health: hp,
                          Constants.value: value,
@@ -150,7 +150,7 @@ class CreateCharacter(GenericGameLogic):
                          Constants.speed: spd,
                          Constants.mana: mp,
                          Constants.crit: crt,
-                         Constants.name: self.name,
+                         Constants.name: name,
                          Constants.description: descript,
                          Constants.inventory: items
                          }

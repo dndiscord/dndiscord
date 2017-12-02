@@ -32,10 +32,14 @@ async def print_message(channel, to_print):
 
 @client.event
 async def on_message(message):
-    if str(message.author).startswith("DnDiscord"):
+    if message.author.name == client.user.name:
         print("skipping")
         return
-    if message.content.startswith('!credits'):
+    if message.content.startswith(Constants.start):
+        await client.send_message(message.channel, 'Welcome to DnDiscord!\n{}, enter your player name:'.format(message.author.name))
+        data.gamestage = Data.GameStage.CHARACTER_CREATE
+
+    elif message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
 
     elif data.gamestage == GameStage.CHARACTER_CREATE:
@@ -45,6 +49,7 @@ async def on_message(message):
         Restart.Restart.restart()
 
     elif message.content.startswith(Constants.createCharacter):
+        await client.send_message(message.channel, '{}, Enter your player name:'.format(message.author.name))
         data.gamestage = Data.GameStage.CHARACTER_CREATE
 
     elif message.content.startswith(Constants.status):
@@ -79,3 +84,4 @@ creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
 client.run(sys.argv[1])
+
