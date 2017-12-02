@@ -20,9 +20,6 @@ async def on_message(message):
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
 
-    elif message.content.startswith('!make character'):
-        await client.send_message(message.channel, 'Starting character creation')
-
     elif message.content.startswith(Constants.restart):
         Restart.restart()
 
