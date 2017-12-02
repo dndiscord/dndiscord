@@ -17,6 +17,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    #TODO set up global gamestate enum, based on gamestate call in class receive methods.
+
     if message.content.startswith('!credits'):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
 
