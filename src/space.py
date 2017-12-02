@@ -1,5 +1,4 @@
 import random
-import time
 import copy
 
 from src.Objects.Key import Key
@@ -9,7 +8,7 @@ class Room:
     def __init__(self, data, parent=None):
         self.data = data
         self.populated = False
-        self.desc = "unpopulated"
+        self.desc = "UNPOPULATED"
         self.exits = []
         self.items = []
         self.parent = parent
@@ -26,12 +25,12 @@ class Room:
         for name in dirs:
             self.data.exit_names.remove(name)
         for name in dirs:
-            exit = Exit(self, name)
+            exit = Exit(self, name, random.random() > 0.5)
             exit.dest.populate()
             self.exits.append(exit)
 
     def describe(self):
-        return self.desc + " with doors " + str(list(map(lambda x: x.name + " door", self.exits))) + " and keys " + str(list(map(lambda k: k.exit + " key", self.items)))
+        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.exits))) + " and keys " + str(list(map(lambda k: k.exit + " key", self.items)))
 
     def show(self):
         print(self.describe())
@@ -41,11 +40,15 @@ class Room:
                 exit.dest.show()
 
 class Exit:
-    def __init__(self, src, name):
+    def __init__(self, src, name, locked):
+        self.locked = locked
         self.data = src.data
         self.src = src
         self.name = name
         self.dest = Room(src.data, self)
+
+    def desc(self):
+        return ["unlocked ", "locked "][int(self.locked)] + self.name + " door"
 
     def show(self):
         print("door named " + self.name + " to " + self.dest.desc)
@@ -68,7 +71,7 @@ def locked_doors(rooms, keys):
     reached = []
     for room in rooms:
         for exit in room.exits:
-            if exit.name not in map(lambda k: k.exit, keys):
+            if exit.locked and exit.name not in map(lambda k: k.exit, keys):
                 reached.append(exit)
     return reached
 
@@ -83,7 +86,7 @@ def solvable(num_keys, root):
     return len(found_keys) == num_keys
 
 def make_rooms(data):
-    root = Room(copy.deepcopy(data))
+    root = Room(data)
     root.populate()
     generate(len(Constants.exit_names), root)
     return root
@@ -94,11 +97,15 @@ def generate(num_keys, root):
         keys = reachable_keys(rooms)
         rooms = reachable_rooms(root, keys)
         locked = locked_doors(rooms, keys)
+        if locked == []:
+            break
         lock = random.choice(locked)
         room = random.choice(rooms)
-        key = Key(lock.name)
+        key = Key(lock.name, room)
         room.items.append(key)
 
+# places the keys in the room that's the least accessible from the start
+# might be better to place it in the room that's the least accessible from the current room
 def generate2(num_keys, root):
     rooms = [root]
     while not solvable(num_keys, root):
@@ -112,5 +119,5 @@ def generate2(num_keys, root):
         locked = locked_doors(rooms, keys)
         lock = random.choice(locked)
         room = q.get()[1]
-        key = Key(lock.name)
+        key = Key(lock.name, room)
         room.items.append(key)
