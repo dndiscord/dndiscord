@@ -64,6 +64,14 @@ def reachable_keys(rooms):
         reached.extend(room.items)
     return reached
 
+def locked_doors(rooms, keys):
+    reached = []
+    for room in rooms:
+        for exit in room.exits:
+            if exit.direction not in map(lambda k: k.exit, keys):
+                reached.append(exit)
+    return reached
+
 def solvable(num_keys, root):
     reached_rooms = [root]
     found_keys = reachable_keys(reached_rooms)
@@ -75,42 +83,18 @@ def solvable(num_keys, root):
     return len(found_keys) == num_keys
 
 def make_rooms(data):
-    while True:
-        try:
-            root = Room(copy.deepcopy(data))
-            root.populate()
-            generate(time.time(), len(Constants.exit_names), 0, root, root)
-            return root
-        except:
-            print("mapgen failed, trying again...")
+    root = Room(copy.deepcopy(data))
+    root.populate()
+    generate(len(Constants.exit_names), root)
+    return root
 
-def generate(start_time, num_keys, keys, root, room):
-    if time.time() - start_time > 3:
-        raise "out of time"
-    all_keys = (1 << num_keys) - 1
-    if keys == all_keys: # all keys placed
-        return solvable(num_keys, root)
-    key_idxs = list(range(0, num_keys))
-    random.shuffle(key_idxs)
-    for key in key_idxs:
-        if (keys & 1 << key) == 0: # need to place this key
-            opts = []
-            opts.append((True, room))
-            for exit in room.exits:
-                if exit.dest == room:
-                    continue
-                opts.append((False, exit.dest))
-            random.shuffle(opts)
-            for (place, next_room) in opts:
-                key_item = Key(Constants.exit_names[key])
-                if place:
-                    room.items.append(key_item)
-                    if generate(start_time, num_keys, keys | 1 << key, root, next_room):
-                        return True
-                    room.items.pop()
-                else:
-                    if generate(start_time, num_keys, keys, root, next_room):
-                        return True
-
-
-
+def generate(num_keys, root):
+    rooms = [root]
+    while not solvable(num_keys, root):
+        keys = reachable_keys(rooms)
+        rooms = reachable_rooms(root, keys)
+        locked = locked_doors(rooms, keys)
+        lock = random.choice(locked)
+        room = random.choice(rooms)
+        key = Key(lock.direction)
+        room.items.append(key)

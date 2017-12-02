@@ -68,6 +68,6 @@ data = Data.Data({
          }
     )]
 })
-#room = make_rooms(data)
-#room.show()
+room = make_rooms(data)
+room.show()
 client.run(sys.argv[1])
