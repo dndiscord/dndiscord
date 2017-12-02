@@ -13,7 +13,7 @@ health = "health"
 restart = "!restart"
 createCharacter = "!createCharacter"
 heroAction = "!hero:"
-
+start = "!start"
 
 #Database categories
 items = 'items'
