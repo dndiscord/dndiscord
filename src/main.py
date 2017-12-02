@@ -32,8 +32,7 @@ async def print_message(channel, to_print):
 
 @client.event
 async def on_message(message):
-    #TODO set up global gamestate enum, based on gamestate call in class receive methods.
-    if str(message.author) == "DnDiscord#4355":
+    if str(message.author).startswith("DnDiscord"):
         print("skipping")
         return
     if message.content.startswith('!credits'):
