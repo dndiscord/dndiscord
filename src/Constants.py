@@ -12,3 +12,8 @@ effect = "effect"
 #Commands
 restart = "!restart"
 createCharacter = "!createCharacter"
+
+
+#Database categories
+items = 'items'
+rooms = 'rooms'
