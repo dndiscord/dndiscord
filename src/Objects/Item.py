@@ -6,6 +6,5 @@ class Item(GenericObject):
     def __init__(self,itemConfig):
         self.effect = itemConfig[Constants.effect]
 
-
-    def activate(self,modifier,isCrit,text):
-        return self.effect
+    def activate(self,user,isCrit,text):
+        return text

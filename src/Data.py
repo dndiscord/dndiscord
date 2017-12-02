@@ -6,9 +6,9 @@ class Data:
     def __init__(self, game_start_data):
         self.items = game_start_data[Constants.items]
         self.rooms = game_start_data[Constants.rooms]
-        self.characters = []
+        self.characters = game_start_data[Constants.characters]
 
-    def add_character(self,character):
+    def add_character(self, character):
         self.characters.append(character)
 
     def get_character(self, name):

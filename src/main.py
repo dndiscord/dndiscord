@@ -2,9 +2,8 @@ import sys
 import discord
 import asyncio
 
-from src import Constants
-from src.GameLogic import CreateCharacter
-from src.GameLogic import Restart
+from src import Constants, Data
+from src.GameLogic import CreateCharacter, CharacterAction, Restart
 
 client = discord.Client()
 
@@ -15,6 +14,11 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
+
+async def print_message(message):
+    await client.send_message(message.channel, message)
+
+
 @client.event
 async def on_message(message):
     #TODO set up global gamestate enum, based on gamestate call in class receive methods.
@@ -23,10 +27,18 @@ async def on_message(message):
         await client.send_message(message.channel, 'Developed by Kristof, Noah, and Harley')
 
     elif message.content.startswith(Constants.restart):
-        Restart.restart()
+        Restart.Restart.restart()
 
     elif message.content.startswith(Constants.createCharacter):
-        CreateCharacter.CreateCharacter(message.channel)
+        CreateCharacter.CreateCharacter(print_message,data)
 
+    elif message.content.startswith(Constants.heroAction):
+        actionPrompt = CharacterAction.CharacterAction(print_message,data)
+        actionPrompt.do_action(message.content)
 
+data = Data.Data({
+    Constants.items: [],
+    Constants.characters: [],
+    Constants.rooms: []
+})
 client.run(sys.argv[1])
