@@ -21,5 +21,5 @@ class Item(GenericObject):
             return baseResult
         #Handle peaceful interactions with characters
         if baseResult == Constants.take:
-            data.current_room.objects = [o for o in data.current_room.objects if o.name is not object.name]
+            data.current_room.objects = [o for o in data.current_room.objects if o.name is not self.name]
             return self

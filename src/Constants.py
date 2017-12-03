@@ -13,6 +13,7 @@ effect = "effect"
 health = "health"
 inventory = "inventory"
 user = 'user'
+target = 'target'
 
 #Commands
 restart = "!restart"

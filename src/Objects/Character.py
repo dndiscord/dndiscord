@@ -13,7 +13,7 @@ class Character(GenericObject):
             self.user = characterconfig[Constants.user]
 
     def receive(self, change, data):
-        baseResult = super().receive(change)
+        baseResult = super().receive(change, data)
         if isinstance(baseResult, list):
             # Return the loot
             return baseResult
@@ -23,8 +23,8 @@ class Character(GenericObject):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
         result[Constants.action] = action
-        item_result = target.receive(result)
-        if isinstance(item_result,list):
+        item_result = target.receive(result, data)
+        if isinstance(item_result, list):
             # Then i get loot
             self.inventory.extend(item_result)
         # elif isinstance(item_result,bool):

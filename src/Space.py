@@ -1,9 +1,9 @@
 import random
-import copy
 
-from src.Objects.Key import Key
 from src import Constants
 from src.Objects.Item import Item
+from src.Objects.Key import Key
+
 
 class Room:
     def __init__(self, data, parent=None):
@@ -53,8 +53,16 @@ class Door(Item):
                 })
         self.locked = locked
         self.src = src
-        self.dest = dest or Room(src.data, self)
+        self.dest = dest or Room(src.data,self)
         self.update_desc(src)
+
+    def receive(self, change, data):
+        # It's a match
+        if self.name == change[Constants.target]:
+            self.locked = False
+            self.update_desc(data.current_room)
+            return super().receive(change, data)
+        return "The lock holds"
 
     def update_desc(self, src):
         self.description = ["A unlocked ", "A locked "][int(self.locked)] + "door to " + self.other_side(src).desc + " labelled " + self.name
@@ -76,11 +84,13 @@ def reachable_rooms(room, keys):
                 reached.extend(reachable_rooms(door.dest, keys))
     return reached
 
+
 def reachable_keys(rooms):
     reached = []
     for room in rooms:
         reached.extend([x for x in room.objects if isinstance(x, Key)])
     return reached
+
 
 def locked_doors(rooms, keys):
     reached = []
@@ -89,6 +99,7 @@ def locked_doors(rooms, keys):
             if door.locked and door.name not in map(lambda k: k.door, keys):
                 reached.append(door)
     return reached
+
 
 def solvable(num_keys, root):
     reached_rooms = [root]
@@ -100,10 +111,12 @@ def solvable(num_keys, root):
         found_keys = reachable_keys(reached_rooms)
     return len(found_keys) == num_keys
 
+
 def make_rooms(data):
     root = Room(data)
     generate(len(Constants.doors), root)
     return root
+
 
 def generate(num_keys, root):
     rooms = [root]
@@ -119,7 +132,7 @@ def generate(num_keys, root):
                 Constants.name: lock.name + "Key",
                 Constants.description: "A key to the " + lock.name + " door",
                 Constants.value: 100,
-                Constants.effect: "poke",
+                Constants.effect: "unlocked",
                 Constants.health: 5,
                 Constants.attack: 2,
                 Constants.inventory: []
