@@ -66,7 +66,14 @@ async def on_message(message):
     elif message.content.startswith(Constants.partyAction):
         roomChange = RoomChange.RoomChange(print_message, data)
 
-dummy = Character(
+data = Data.Data({
+    Constants.items: [],
+    Constants.characters: [],
+    Constants.rooms: copy.copy(Constants.room_names),
+    Constants.doors: copy.copy(Constants.door_names),
+})
+data.current_room.objects.append(
+    Character(
         {Constants.health: 500,
          Constants.value: 50,
          Constants.attack: 0,
@@ -75,7 +82,7 @@ dummy = Character(
          Constants.crit: 0,
          Constants.name: "Target_Dummy",
          Constants.description: "An unassuming target dummy",
-         Constants.user: "NPC",
+         Constants.user: "",
          Constants.inventory: [Item({
                 Constants.name: "Head",
                 Constants.description: "The head of your conquered foe, the target dummy",
@@ -86,13 +93,7 @@ dummy = Character(
                 Constants.inventory: []
             })]
          }
-    )
-data = Data.Data({
-    Constants.items: [],
-    Constants.characters: [],
-    Constants.rooms: copy.copy(Constants.room_names),
-    Constants.doors: copy.copy(Constants.door_names),
-})
+    ))
 creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
