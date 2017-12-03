@@ -16,7 +16,7 @@ class CharacterAction(GenericGameLogic):
 
         item_name = input_components[1]
         target_name = input_components[2]
-        target = self.data.get_from_current_scenario(target_name)
+        target = self.data.get_from_current_room(target_name)
         item = next(iter([i for i in character.inventory if i.name == item_name] or []), None)
         if item is None:
             await self.printMethod(message.channel, "{} does not have a {}!".format(hero_name, item_name))

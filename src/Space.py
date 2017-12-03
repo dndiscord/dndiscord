@@ -10,7 +10,7 @@ class Room:
         self.populated = False
         self.desc = "UNPOPULATED"
         self.doors = []
-        self.items = []
+        self.objects = []
         self.parent = parent
         if parent is not None:
             self.doors.append(parent) # door back where we came from
@@ -30,7 +30,7 @@ class Room:
             self.doors.append(door)
 
     def describe(self):
-        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.doors))) + " and keys " + str(list(map(lambda k: k.door + " key", self.items)))
+        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.doors))) + " and keys " + str([x.door + " key" for x in self.objects if isinstance(x, Key)])
 
     def show(self):
         print(self.describe())
@@ -56,7 +56,7 @@ class Door:
 def reachable_rooms(room, keys):
     reached = [room]
     for door in room.doors:
-        if not door.locked or door.name in map(lambda k: k.door, keys):
+        if not door.locked or door.name in map(lambda k: k.name, keys):
             if door.dest != room:
                 reached.extend(reachable_rooms(door.dest, keys))
     return reached
@@ -64,14 +64,14 @@ def reachable_rooms(room, keys):
 def reachable_keys(rooms):
     reached = []
     for room in rooms:
-        reached.extend(room.items)
+        reached.extend(room.objects)
     return reached
 
 def locked_doors(rooms, keys):
     reached = []
     for room in rooms:
         for door in room.doors:
-            if door.locked and door.name not in map(lambda k: k.door, keys):
+            if door.locked and door.name not in map(lambda k: k.name, keys):
                 reached.append(door)
     return reached
 
@@ -101,6 +101,14 @@ def generate(num_keys, root):
             break
         lock = random.choice(locked)
         room = random.choice(rooms)
-        key = Key(lock.name, room)
-        room.items.append(key)
+        key = Key({
+                Constants.name: lock.name,
+                Constants.description: "A key to the " + lock.name + " door",
+                Constants.value: 100,
+                Constants.effect: "poke",
+                Constants.health: 5,
+                Constants.attack: 2,
+                Constants.inventory: []
+                }, room)
+        room.objects.append(key)
 

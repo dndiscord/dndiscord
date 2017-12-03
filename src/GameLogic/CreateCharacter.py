@@ -63,7 +63,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 50,
                 Constants.inventory: []
             })]
-       
+
         elif race == 'dwarf':
             spd -= 5
             hp += 90
@@ -77,7 +77,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100,
                 Constants.inventory: []
             })]
- 
+
         elif race == 'troll':
             hp += 90
             attk += 10
@@ -92,7 +92,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100,
                 Constants.inventory: []
             })]
-            
+
         elif race == 'gnome':
             hp -=20
             spd +=20
@@ -107,7 +107,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.attack: 100,
                 Constants.inventory: []
             })]
- 
+
         elif race == 'human':
             hp += 20
             attk += 10
@@ -131,7 +131,7 @@ class CreateCharacter(GenericGameLogic):
                 Constants.inventory: []
             })
             ]
-            
+
         if occupation == 'thief':
             spd += 10
             hp -=10
@@ -140,7 +140,7 @@ class CreateCharacter(GenericGameLogic):
 
         elif occupation == 'smith':
             hp += 20
-        
+
         elif occupation == 'drunk':
             attk -= 4
             crt += 4
@@ -166,7 +166,7 @@ class CreateCharacter(GenericGameLogic):
                          }
         newCharacter = Character(characterDict)
         self.data.add_character(newCharacter)
-        self.data.current_scenario.append(newCharacter)
+        self.data.current_room.objects.append(newCharacter)
         self.data.gamestage = Data.GameStage.MOVE
 
 

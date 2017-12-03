@@ -11,7 +11,7 @@ class StatusReport(GenericGameLogic):
                                    self.data.current_room.describe(),
                                    "".join(["-------------------\nname: {}\ndescription: {}\nhealth: {}\n"
                                                .format(i.name, i.description, i.health)
-                                                for i in self.data.current_scenario])))
+                                                for i in self.data.current_room.objects])))
 
     async def print_my_status(self,message):
         character = self.data.get_character_by_user(message.author.name)

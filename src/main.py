@@ -4,12 +4,11 @@ import sys
 
 import discord
 
-from src.Objects.Item import Item
-
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 sys.setrecursionlimit(10000)
 
+from src.Objects.Item import Item
 from src.Space import make_rooms
 from src.Objects.Character import Character
 from src.Data import GameStage
@@ -67,13 +66,8 @@ async def on_message(message):
     elif message.content.startswith(Constants.partyAction):
         roomChange = RoomChange.RoomChange(print_message, data)
 
-data = Data.Data({
-    Constants.items: [],
-    Constants.characters: [],
-    Constants.rooms: copy.copy(Constants.room_names),
-    Constants.doors: copy.copy(Constants.door_names),
-    Constants.current_scenario: [Character(
-        {Constants.health: 30,
+dummy = Character(
+        {Constants.health: 500,
          Constants.value: 50,
          Constants.attack: 0,
          Constants.speed: 0,
@@ -92,7 +86,12 @@ data = Data.Data({
                 Constants.inventory: []
             })]
          }
-    )]
+    )
+data = Data.Data({
+    Constants.items: [],
+    Constants.characters: [],
+    Constants.rooms: copy.copy(Constants.room_names),
+    Constants.doors: copy.copy(Constants.door_names),
 })
 creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
