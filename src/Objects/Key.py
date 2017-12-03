@@ -2,8 +2,16 @@ from src.Objects.Item import Item
 from src import Constants
 
 class Key(Item):
-    def __init__(self, object_config, door, room):
-        super().__init__(object_config)
+    def __init__(self, door, room):
+        super().__init__({
+                Constants.name: door + "Key",
+                Constants.description: "A key to the " + door + " door",
+                Constants.value: 100,
+                Constants.effect: "unlocked",
+                Constants.health: 5,
+                Constants.attack: 2,
+                Constants.inventory: []
+                })
         self.room = room # room the key is in
         self.door = door # door the key opens
 
