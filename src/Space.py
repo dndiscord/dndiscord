@@ -3,17 +3,21 @@ import copy
 
 from src.Objects.Key import Key
 from src import Constants
+from src.Objects.Item import Item
 
 class Room:
     def __init__(self, data, parent=None):
         self.data = data
-        self.populated = False
         self.desc = "UNPOPULATED"
         self.doors = []
         self.objects = []
-        self.parent = parent
+        self.parent = None
         if parent is not None:
-            self.doors.append(parent) # door back where we came from
+            self.parent = parent.src
+            back_door = Door(parent.name, self, parent.locked, parent.src)
+            self.doors.append(back_door) # door back where we came from
+            self.objects.append(back_door)
+        self.populate()
 
     def populate(self):
         num_doors = random.randint(min(1, len(self.data.doors)), min(3, len(self.data.doors)))
@@ -25,9 +29,10 @@ class Room:
         for name in dirs:
             self.data.doors.remove(name)
         for name in dirs:
-            door = Door(self, name, random.random() > 0.2)
-            door.dest.populate()
+            door = Door(name, self, random.random() > 0.2)
+            door.description = "A door to " + door.dest.desc
             self.doors.append(door)
+            self.objects.append(door)
 
     def describe(self):
         return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.doors))) + " and keys " + str([x.door + " key" for x in self.objects if isinstance(x, Key)])
@@ -39,16 +44,24 @@ class Room:
                 door.show()
                 door.dest.show()
 
-class Door:
-    def __init__(self, src, name, locked):
+class Door(Item):
+    def __init__(self, name, src, locked, dest=None):
+        super().__init__({
+                Constants.name: name + "Door",
+                Constants.description: "A door",
+                Constants.value: 13,
+                Constants.effect: "smother",
+                Constants.health: 10000,
+                Constants.attack: 100,
+                Constants.inventory: []
+                })
         self.locked = locked
-        self.data = src.data
         self.src = src
-        self.name = name
-        self.dest = Room(src.data, self)
+        self.dest = dest or Room(src.data, self)
+        self.description = "A door to " + self.dest.desc
 
     def desc(self):
-        return ["unlocked ", "locked "][int(self.locked)] + self.name + " door"
+        return ["unlocked ", "locked "][int(self.locked)] + self.name
 
     def show(self):
         print("door named " + self.name + " to " + self.dest.desc)
@@ -57,14 +70,14 @@ def reachable_rooms(room, keys):
     reached = [room]
     for door in room.doors:
         if not door.locked or door.name in map(lambda k: k.door, keys):
-            if door.dest != room:
+            if door.dest != room.parent:
                 reached.extend(reachable_rooms(door.dest, keys))
     return reached
 
 def reachable_keys(rooms):
     reached = []
     for room in rooms:
-        reached.extend(room.objects)
+        reached.extend([x for x in room.objects if isinstance(x, Key)])
     return reached
 
 def locked_doors(rooms, keys):
@@ -87,7 +100,6 @@ def solvable(num_keys, root):
 
 def make_rooms(data):
     root = Room(data)
-    root.populate()
     generate(len(Constants.doors), root)
     return root
 
@@ -102,7 +114,7 @@ def generate(num_keys, root):
         lock = random.choice(locked)
         room = random.choice(rooms)
         key = Key({
-                Constants.name: lock.name + " key",
+                Constants.name: lock.name + "Key",
                 Constants.description: "A key to the " + lock.name + " door",
                 Constants.value: 100,
                 Constants.effect: "poke",

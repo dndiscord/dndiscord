@@ -63,7 +63,7 @@ async def on_message(message):
         await actionPrompt.do_action(message)
 
     elif message.content.startswith(Constants.partyAction):
-        roomChange = RoomChange.RoomChange(print_message, data)
+        await roomChange.parse_action(message)
 
 data = Data.Data({
     Constants.items: [],
@@ -96,5 +96,8 @@ data.current_room.objects.append(
 creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
+roomChange = RoomChange.RoomChange(print_message, data)
+
+creator.assign_stats('elf', 'hunter', 'gg', 'chronular#4496')
 client.run(sys.argv[1])
 
