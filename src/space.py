@@ -9,37 +9,37 @@ class Room:
         self.data = data
         self.populated = False
         self.desc = "UNPOPULATED"
-        self.exits = []
+        self.doors = []
         self.items = []
         self.parent = parent
         if parent is not None:
-            self.exits.append(parent) # door back where we came from
+            self.doors.append(parent) # door back where we came from
 
     def populate(self):
-        num_exits = random.randint(min(1, len(self.data.exit_names)), min(3, len(self.data.exit_names)))
+        num_doors = random.randint(min(1, len(self.data.doors)), min(3, len(self.data.doors)))
         if len(self.data.rooms) == 0:
             return
         self.desc = random.sample(self.data.rooms, 1)[0]
         self.data.rooms.remove(self.desc)
-        dirs = random.sample(self.data.exit_names, num_exits)
+        dirs = random.sample(self.data.doors, num_doors)
         for name in dirs:
-            self.data.exit_names.remove(name)
+            self.data.doors.remove(name)
         for name in dirs:
-            exit = Exit(self, name, random.random() > 0.2)
-            exit.dest.populate()
-            self.exits.append(exit)
+            door = Door(self, name, random.random() > 0.2)
+            door.dest.populate()
+            self.doors.append(door)
 
     def describe(self):
-        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.exits))) + " and keys " + str(list(map(lambda k: k.exit + " key", self.items)))
+        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.doors))) + " and keys " + str(list(map(lambda k: k.door + " key", self.items)))
 
     def show(self):
         print(self.describe())
-        for exit in self.exits:
-            if exit.dest != self:
-                exit.show()
-                exit.dest.show()
+        for door in self.doors:
+            if door.dest != self:
+                door.show()
+                door.dest.show()
 
-class Exit:
+class Door:
     def __init__(self, src, name, locked):
         self.locked = locked
         self.data = src.data
@@ -55,10 +55,10 @@ class Exit:
 
 def reachable_rooms(room, keys):
     reached = [room]
-    for exit in room.exits:
-        if not exit.locked or exit.name in map(lambda k: k.exit, keys):
-            if exit.dest != room:
-                reached.extend(reachable_rooms(exit.dest, keys))
+    for door in room.doors:
+        if not door.locked or door.name in map(lambda k: k.door, keys):
+            if door.dest != room:
+                reached.extend(reachable_rooms(door.dest, keys))
     return reached
 
 def reachable_keys(rooms):
@@ -70,9 +70,9 @@ def reachable_keys(rooms):
 def locked_doors(rooms, keys):
     reached = []
     for room in rooms:
-        for exit in room.exits:
-            if exit.locked and exit.name not in map(lambda k: k.exit, keys):
-                reached.append(exit)
+        for door in room.doors:
+            if door.locked and door.name not in map(lambda k: k.door, keys):
+                reached.append(door)
     return reached
 
 def solvable(num_keys, root):
@@ -88,7 +88,7 @@ def solvable(num_keys, root):
 def make_rooms(data):
     root = Room(data)
     root.populate()
-    generate(len(Constants.exit_names), root)
+    generate(len(Constants.doors), root)
     return root
 
 def generate(num_keys, root):

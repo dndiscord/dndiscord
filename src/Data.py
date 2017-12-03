@@ -1,12 +1,13 @@
 from src import Constants
+from src.space import make_rooms
 from enum import Enum
 import copy
 
 
 class GameStage(Enum):
-    CHARACTER_CREATE = 1 
-    MOVE = 2 
-    FIGHT = 3 
+    CHARACTER_CREATE = 1
+    MOVE = 2
+    FIGHT = 3
 
 
 class Data:
@@ -14,11 +15,12 @@ class Data:
     def __init__(self, game_start_data):
         self.items = game_start_data[Constants.items]
         self.rooms = game_start_data[Constants.rooms]
+        self.doors = game_start_data[Constants.doors]
         self.characters = game_start_data[Constants.characters]
         self.current_scenario = game_start_data[Constants.current_scenario]
-        self.exit_names = copy.copy(Constants.exit_names)
         self.gamestage = GameStage.CHARACTER_CREATE
         self.current_player = ""
+        self.current_room = make_rooms(self)
 
     def add_character(self, character):
         self.characters.append(character)

@@ -67,6 +67,7 @@ data = Data.Data({
     Constants.items: [],
     Constants.characters: [],
     Constants.rooms: copy.copy(Constants.room_names),
+    Constants.doors: copy.copy(Constants.door_names),
     Constants.current_scenario: [Character(
         {Constants.health: 500,
          Constants.value: 50,
@@ -80,8 +81,6 @@ data = Data.Data({
          }
     )]
 })
-room = make_rooms(data)
-room.show()
 creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
