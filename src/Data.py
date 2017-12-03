@@ -1,5 +1,5 @@
 from src import Constants
-from src.space import make_rooms
+from src.Space import make_rooms
 from enum import Enum
 import copy
 

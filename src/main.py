@@ -9,7 +9,7 @@ lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
 sys.setrecursionlimit(10000)
 
-from src.space import make_rooms
+from src.Space import make_rooms
 from src.Objects.Character import Character
 from src.Data import GameStage
 from src import Constants, Data
