@@ -14,11 +14,12 @@ class Item(GenericObject):
             Constants.effect: self.effect
         }
 
-    def receive(self, change):
-        baseResult = super().receive(change)
+    def receive(self, change, data):
+        baseResult = super().receive(change, data)
         if isinstance(baseResult, list):
             # Return the loot
             return baseResult
         #Handle peaceful interactions with characters
         if baseResult == Constants.take:
+            data.current_room.objects = [o for o in data.current_room.objects if o.name is not object.name]
             return self

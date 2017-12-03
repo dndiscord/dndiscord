@@ -99,5 +99,6 @@ statusPrompt = StatusReport.StatusReport(print_message, data)
 roomChange = RoomChange.RoomChange(print_message, data)
 
 creator.assign_stats('elf', 'hunter', 'gg', 'chronular#4496')
+creator.assign_stats('troll', 'librarian', 'quaz', 'Quaznal#8096')
 client.run(sys.argv[1])
 

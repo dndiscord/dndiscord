@@ -46,8 +46,9 @@ swing = 'swing'
 stab = 'stab'
 heal = 'heal'
 fire = 'fire'
+unlock = 'unlock'
 
 organized_action_vocab = {
-    "item_use": {'character_interact': [give], 'item_interact': [swing, stab, heal, fire]},
+    "item_use": {'character_interact': [give], 'item_interact': [swing, stab, heal, fire, unlock]},
     "non_item_use": {'character_interact': [trade], 'item_interact': [take]}
 }

@@ -15,7 +15,7 @@ class GenericObject:
         if Constants.inventory in objectconfig.keys():
             self.inventory = objectconfig[Constants.inventory]
 
-    def receive(self, change):
+    def receive(self, change, data):
         self.health -= change[Constants.attack]
         if change[Constants.effect] is not None:
             self.description += " [{}]".format(change[Constants.effect])

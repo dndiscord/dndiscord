@@ -10,7 +10,7 @@ class Character(GenericObject):
         self.mana = characterconfig[Constants.mana]
         self.user = characterconfig[Constants.user]
 
-    def receive(self, change):
+    def receive(self, change, data):
         baseResult = super().receive(change)
         if isinstance(baseResult, list):
             # Return the loot
@@ -21,10 +21,15 @@ class Character(GenericObject):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
         result[Constants.action] = action
-        maybe_loot = target.receive(result)
-        if maybe_loot is not None:
-            self.inventory.extend(maybe_loot)
+        item_result = target.receive(result)
+        if isinstance(item_result,list):
+            # Then i get loot
+            self.inventory.extend(item_result)
+        # elif isinstance(item_result,bool):
+        #     # Then this was a door attempt
+
         return result[Constants.description]
+
 
     # Non item use, already validated for character vs object
     def use_target(self, target, action, data):
@@ -33,8 +38,7 @@ class Character(GenericObject):
         elif action == Constants.take:
             event_description = "{} took the {}".format(self.name, target.name)
             object = target.receive({Constants.attack: 0, Constants.effect: None, Constants.action: action,
-                                     Constants.description: event_description})
+                                     Constants.description: event_description}, data)
             self.inventory.append(object)
-            data.current_room.objects = [o for o in data.current_room.objects if o.name is not object.name]
             return event_description
 
