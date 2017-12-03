@@ -32,3 +32,8 @@ characters = 'characters'
 # room stuff
 door_names = ["blue", "purple", "red", "green", "orange", "black", "white", "yellow", "huge", "cool", "skeleton", "Abloy", "invisible", "indivisible"]
 room_names = ["big house", "town square", "garden", "dungeon", "supermarket", "town hall", "corner store", "small house", "abandoned cemetary", "haven", "park", "party", "factory", "storm drains", "janitor's closet"]
+
+action_vocabulary = {
+    "item_use": {'character_interact':[], 'item_interact':[], 'object_interact': []},
+    "non_item_use": {'character_interact':[], 'item_interact':[], 'object_interact': []}
+}
