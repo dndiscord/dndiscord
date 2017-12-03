@@ -25,13 +25,13 @@ class Data:
         self.characters.append(character)
 
     def get_character_by_name(self, name):
-        return next(iter([c for c in self.characters if c.name == name] or []), None)
+        return next(iter([c for c in self.characters if c.name.lower() == name.lower()] or []), None)
 
     def get_character_by_user(self,user):
-        return next(iter([c for c in self.characters if c.user == user] or []), None)
+        return next(iter([c for c in self.characters if c.user.lower() == user.lower()] or []), None)
 
     def get_item(self, name):
-        return next(iter([i for i in self.items if i.name == name] or []), None)
+        return next(iter([i for i in self.items if i.name.lower() == name.lower()] or []), None)
 
     def get_from_current_room(self,name):
-        return next(iter([i for i in self.current_room.objects if i.name == name]), None)
+        return next(iter([i for i in self.current_room.objects if i.name.lower() == name.lower()]), None)
