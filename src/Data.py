@@ -17,7 +17,6 @@ class Data:
         self.rooms = game_start_data[Constants.rooms]
         self.doors = game_start_data[Constants.doors]
         self.characters = game_start_data[Constants.characters]
-        self.current_scenario = game_start_data[Constants.current_scenario]
         self.gamestage = GameStage.CHARACTER_CREATE
         self.current_player = ""
         self.current_room = make_rooms(self)
@@ -34,5 +33,5 @@ class Data:
     def get_item(self, name):
         return next(iter([i for i in self.items if i.name == name] or []), None)
 
-    def get_from_current_scenario(self,name):
-        return next(iter([i for i in self.current_scenario if i.name == name]), None)
+    def get_from_current_room(self,name):
+        return next(iter([i for i in self.current_room.objects if i.name == name]), None)

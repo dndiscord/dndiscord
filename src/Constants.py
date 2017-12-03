@@ -28,7 +28,6 @@ items = 'items'
 rooms = 'rooms'
 doors = 'doors'
 characters = 'characters'
-current_scenario = 'current_scenario'
 
 # room stuff
 door_names = ["blue", "purple", "red", "green", "orange", "black", "white", "yellow", "huge", "cool", "skeleton", "Abloy", "invisible", "indivisible"]
