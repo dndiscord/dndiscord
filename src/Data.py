@@ -1,4 +1,5 @@
 from src import Constants
+from src.Objects.Character import Character
 from src.Space import make_rooms
 from enum import Enum
 import copy
@@ -35,3 +36,6 @@ class Data:
 
     def get_from_current_room(self,name):
         return next(iter([i for i in self.current_room.objects if i.name.lower() == name.lower()]), None)
+
+    def get_player_characters_from_current_room(self):
+        return [u for u in self.current_room.objects if isinstance(u,Character) and not u.user == ""]
