@@ -4,6 +4,7 @@ import sys
 
 import discord
 
+from src.Objects.Item import Item
 
 lib_path = os.path.abspath(os.path.join('..'))
 sys.path.append(lib_path)
@@ -57,6 +58,9 @@ async def on_message(message):
     elif message.content.startswith(Constants.status):
         await statusPrompt.print_current_statuses(message)
 
+    elif message.content.startswith(Constants.my_status):
+        await statusPrompt.print_my_status(message)
+
     elif message.content.startswith(Constants.heroAction):
         await actionPrompt.do_action(message)
 
@@ -69,7 +73,7 @@ data = Data.Data({
     Constants.rooms: copy.copy(Constants.room_names),
     Constants.doors: copy.copy(Constants.door_names),
     Constants.current_scenario: [Character(
-        {Constants.health: 500,
+        {Constants.health: 30,
          Constants.value: 50,
          Constants.attack: 0,
          Constants.speed: 0,
@@ -77,7 +81,16 @@ data = Data.Data({
          Constants.crit: 0,
          Constants.name: "Target_Dummy",
          Constants.description: "An unassuming target dummy",
-         Constants.inventory: []
+         Constants.user: "NPC",
+         Constants.inventory: [Item({
+                Constants.name: "Target Dummy Head",
+                Constants.description: "The head of your conquered foe",
+                Constants.value: 100,
+                Constants.effect: "bludgeon",
+                Constants.health: 200,
+                Constants.attack: 20,
+                Constants.inventory: []
+            })]
          }
     )]
 })

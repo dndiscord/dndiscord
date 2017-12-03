@@ -35,13 +35,13 @@ class CreateCharacter(GenericGameLogic):
                 current_user = self.traits[user]
                 await self.printMethod(message.channel, "{}, you are {}, the {} {}."
                                        .format(user, current_user['name'], current_user['race'], current_user['occupation']))
-                self.assign_stats(current_user['race'], current_user['occupation'], current_user['name'])
+                self.assign_stats(current_user['race'], current_user['occupation'], current_user['name'], message.author.name)
                 self.data.gamestage = Data.GameStage.MOVE
         else:
             await self.printMethod(message.channel, "You've already created a character...")
             self.data.gamestage = Data.GameStage.MOVE
 
-    def assign_stats(self, race, occupation, name):
+    def assign_stats(self, race, occupation, name, user):
         hp = 120
         spd = 15
         attk = 10
@@ -60,21 +60,23 @@ class CreateCharacter(GenericGameLogic):
                 Constants.value: 100,
                 Constants.effect: "shoot",
                 Constants.health: 200,
-                Constants.attack: 50
+                Constants.attack: 50,
+                Constants.inventory: []
             })]
        
         elif race == 'dwarf':
             spd -= 5
             hp += 90
             mp -= 5
-            items = Item({
+            items = [Item({
                 Constants.name: "Hammer",
                 Constants.description: "A hammer that weighs almost as much as a cow",
                 Constants.value: 100,
                 Constants.effect: "pound",
                 Constants.health: 200,
-                Constants.attack: 100
-            })
+                Constants.attack: 100,
+                Constants.inventory: []
+            })]
  
         elif race == 'troll':
             hp += 90
@@ -87,7 +89,8 @@ class CreateCharacter(GenericGameLogic):
                 Constants.value: 100,
                 Constants.effect: "smash",
                 Constants.health: 200,
-                Constants.attack: 100
+                Constants.attack: 100,
+                Constants.inventory: []
             })]
             
         elif race == 'gnome':
@@ -101,7 +104,8 @@ class CreateCharacter(GenericGameLogic):
                 Constants.value: 80,
                 Constants.effect: "impale",
                 Constants.health: 200,
-                Constants.attack: 100
+                Constants.attack: 100,
+                Constants.inventory: []
             })]
  
         elif race == 'human':
@@ -115,14 +119,16 @@ class CreateCharacter(GenericGameLogic):
                 Constants.value: 100,
                 Constants.effect: "slash",
                 Constants.health: 200,
-                Constants.attack: 20
+                Constants.attack: 20,
+                Constants.inventory: []
             }), Item({
                 Constants.name: "Shield",
                 Constants.description: "A simple shield",
                 Constants.value: 50,
                 Constants.effect: "block",
                 Constants.health: 500,
-                Constants.attack: 10
+                Constants.attack: 10,
+                Constants.inventory: []
             })
             ]
             
@@ -155,7 +161,8 @@ class CreateCharacter(GenericGameLogic):
                          Constants.crit: crt,
                          Constants.name: name,
                          Constants.description: descript,
-                         Constants.inventory: items
+                         Constants.inventory: items,
+                         Constants.user: user
                          }
         newCharacter = Character(characterDict)
         self.data.add_character(newCharacter)

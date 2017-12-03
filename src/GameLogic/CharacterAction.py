@@ -9,14 +9,9 @@ class CharacterAction(GenericGameLogic):
     async def do_action(self, message):
         input_components = message.content.split(' ')
         hero_name = input_components[0].split(':')[1]
-        character = self.data.get_character(hero_name)
+        character = self.data.get_character_by_name(hero_name)
         if character is None:
             await self.printMethod(message.channel, "Hero {} does not exist!".format(hero_name))
-            return
-
-        if input_components[1] == Constants.status:
-            await self.printMethod(message.channel, "Description:\n{}\nInventory:\n{}"
-                                   .format(character.description, "".join(["name: {}, description: {}\n".format(i.name,i.description) for i in character.inventory])))
             return
 
         item_name = input_components[1]

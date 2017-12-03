@@ -25,8 +25,11 @@ class Data:
     def add_character(self, character):
         self.characters.append(character)
 
-    def get_character(self, name):
+    def get_character_by_name(self, name):
         return next(iter([c for c in self.characters if c.name == name] or []), None)
+
+    def get_character_by_user(self,user):
+        return next(iter([c for c in self.characters if c.user == user] or []), None)
 
     def get_item(self, name):
         return next(iter([i for i in self.items if i.name == name] or []), None)

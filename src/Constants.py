@@ -12,6 +12,7 @@ activate = "activate"
 effect = "effect"
 health = "health"
 inventory = "inventory"
+user = 'user'
 
 #Commands
 restart = "!restart"
@@ -20,6 +21,7 @@ heroAction = "!hero:"
 start = "!start"
 partyAction = "!party"
 status = '!status'
+my_status = '!mystatus'
 
 #Database categories
 items = 'items'
