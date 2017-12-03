@@ -27,8 +27,8 @@ class Character(GenericObject):
         if isinstance(item_result, list):
             # Then i get loot
             self.inventory.extend(item_result)
-        # elif isinstance(item_result,bool):
-        #     # Then this was a door attempt
+        elif item_result is not None:
+            return item_result
 
         return result[Constants.description]
 

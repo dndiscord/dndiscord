@@ -10,7 +10,7 @@ class Key(Item):
     def activate(self, user, isCrit):
         return {
             Constants.description: "{} used {} to {}".format(user.name, self.name, self.effect),
-            Constants.attack: user.attack + self.attack,
+            Constants.attack: self.attack,
             Constants.effect: self.effect,
             Constants.target: self.door
         }
