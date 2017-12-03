@@ -10,7 +10,7 @@ class Character(GenericObject):
         self.mana = characterconfig[Constants.mana]
         self.user = characterconfig[Constants.user]
 
-    def use_item(self, item, target):
+    def use_item(self, item, target, action):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
         maybe_loot = target.receive(result)
@@ -18,4 +18,5 @@ class Character(GenericObject):
             self.inventory.extend(maybe_loot)
         return result[Constants.description]
 
-
+    def use_person(self, person, action):
+        return "{} {}-ed {}".format(self.name, action, person.name)

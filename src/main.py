@@ -33,7 +33,6 @@ async def print_message(channel, to_print):
 @client.event
 async def on_message(message):
     if message.author.name == client.user.name:
-        print("skipping")
         return
     if message.content.startswith(Constants.start):
         data.current_player = message.author.name
