@@ -13,3 +13,12 @@ class Item(GenericObject):
             Constants.attack: user.attack + self.attack,
             Constants.effect: self.effect
         }
+
+    def receive(self, change):
+        baseResult = super(change)
+        if isinstance(baseResult, list):
+            # Return the loot
+            return baseResult
+        #Handle peaceful interactions with characters
+        if baseResult == Constants.take:
+            return [self]

@@ -10,13 +10,28 @@ class Character(GenericObject):
         self.mana = characterconfig[Constants.mana]
         self.user = characterconfig[Constants.user]
 
-    def use_item(self, item, target, action):
+    def receive(self, change):
+        baseResult = super(change)
+        if isinstance(baseResult, list):
+            # Return the loot
+            return baseResult
+        #Handle peaceful interactions with other characters
+
+    def use_item(self, item, target, action, data):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
+        result[Constants.action] = action
         maybe_loot = target.receive(result)
         if maybe_loot is not None:
             self.inventory.extend(maybe_loot)
         return result[Constants.description]
 
-    def use_person(self, person, action):
-        return "{} {}-ed {}".format(self.name, action, person.name)
+    # Non item use, already validated for character vs object
+    def use_target(self, target, action, data):
+        if action == Constants.trade:
+            target.receive({})
+        elif action == Constants.take:
+            object = target.receive({Constants.attack: 0, Constants.effect: None, Constants.action: action,
+                                      Constants.description: "{} took the {}".format(self.name, target.name)})
+            self.inventory.append(object)
+            data.current_room.objects = [o for o in data.current_room.objects if o.name is not object.name]

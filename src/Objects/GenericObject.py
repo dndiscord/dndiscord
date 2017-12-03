@@ -1,3 +1,5 @@
+import copy
+
 from src import Constants
 
 
@@ -15,9 +17,11 @@ class GenericObject:
 
     def receive(self, change):
         self.health -= change[Constants.attack]
-        if change[Constants.effect] is None:
-            return
-        self.description += " [{}]".format(change[Constants.effect])
-        if self.health <= 0:
+        if change[Constants.effect] is not None:
+            self.description += " [{}]".format(change[Constants.effect])
+        if self.health <= 0 < change[Constants.attack]:
             self.description += " [{}]".format("destroyed")
-            return self.inventory
+            loot = copy.copy(self.inventory)
+            self.inventory = []
+            return loot
+        return change[Constants.action]

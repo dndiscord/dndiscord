@@ -33,7 +33,21 @@ characters = 'characters'
 door_names = ["blue", "purple", "red", "green", "orange", "black", "white", "yellow", "huge", "cool", "skeleton", "Abloy", "invisible", "indivisible"]
 room_names = ["big house", "town square", "garden", "dungeon", "supermarket", "town hall", "corner store", "small house", "abandoned cemetary", "haven", "park", "party", "factory", "storm drains", "janitor's closet"]
 
-action_vocabulary = {
-    "item_use": {'character_interact': [], 'item_interact': ['swing', 'stab', 'heal']},
-    "non_item_use": {'character_interact': ['buy'], 'item_interact': ['grab']}
+#action vocabulary
+action = 'action'
+
+trade = 'trade'
+
+take = 'take'
+
+give = 'give'
+
+swing = 'swing'
+stab = 'stab'
+heal = 'heal'
+fire = 'fire'
+
+organized_action_vocab = {
+    "item_use": {'character_interact': [give], 'item_interact': [swing, stab, heal, fire]},
+    "non_item_use": {'character_interact': [trade], 'item_interact': [take]}
 }
