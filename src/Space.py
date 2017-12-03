@@ -56,7 +56,7 @@ class Door:
 def reachable_rooms(room, keys):
     reached = [room]
     for door in room.doors:
-        if not door.locked or door.name in map(lambda k: k.name, keys):
+        if not door.locked or door.name in map(lambda k: k.door, keys):
             if door.dest != room:
                 reached.extend(reachable_rooms(door.dest, keys))
     return reached
@@ -71,7 +71,7 @@ def locked_doors(rooms, keys):
     reached = []
     for room in rooms:
         for door in room.doors:
-            if door.locked and door.name not in map(lambda k: k.name, keys):
+            if door.locked and door.name not in map(lambda k: k.door, keys):
                 reached.append(door)
     return reached
 
@@ -102,13 +102,13 @@ def generate(num_keys, root):
         lock = random.choice(locked)
         room = random.choice(rooms)
         key = Key({
-                Constants.name: lock.name,
+                Constants.name: lock.name + " key",
                 Constants.description: "A key to the " + lock.name + " door",
                 Constants.value: 100,
                 Constants.effect: "poke",
                 Constants.health: 5,
                 Constants.attack: 2,
                 Constants.inventory: []
-                }, room)
+                }, lock.name, room)
         room.objects.append(key)
 
