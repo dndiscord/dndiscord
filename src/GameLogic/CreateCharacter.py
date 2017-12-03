@@ -15,8 +15,9 @@ class CreateCharacter(GenericGameLogic):
     async def getMessage(self, message):
         text = message.content
         user = message.author.name
-        # if text == "testing":
-        #     self.assign_stats("carlos", "human", "drunk")
+        if not user == self.data.current_player:
+            await self.printMethod(message.channel, "WAIT YOUR TURN")
+            return
         if not self.configured(user, 'name'):
             self.traits[user] = {}
             self.traits[user]['name'] = text
@@ -36,8 +37,11 @@ class CreateCharacter(GenericGameLogic):
                                        .format(user, current_user['name'], current_user['race'], current_user['occupation']))
                 self.assign_stats(current_user['race'], current_user['occupation'], current_user['name'])
                 self.data.gamestage = Data.GameStage.MOVE
+        else:
+            await self.printMethod(message.channel, "You've already created a character...")
+            self.data.gamestage = Data.GameStage.MOVE
 
-    def assign_stats(self,race,occupation, name):
+    def assign_stats(self, race, occupation, name):
         hp = 120
         spd = 15
         attk = 10
@@ -143,7 +147,6 @@ class CreateCharacter(GenericGameLogic):
             crt +=5
 
         descript = "You are " + name + " the " + race + " " + occupation + "."
-        print("here")
         characterDict = {Constants.health: hp,
                          Constants.value: value,
                          Constants.attack: attk,

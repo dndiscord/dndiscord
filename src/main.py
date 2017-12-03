@@ -36,6 +36,7 @@ async def on_message(message):
         print("skipping")
         return
     if message.content.startswith(Constants.start):
+        data.current_player = message.author.name
         await client.send_message(message.channel, 'Welcome to DnDiscord!\n{}, enter your player name:'.format(message.author.name))
         data.gamestage = Data.GameStage.CHARACTER_CREATE
 
@@ -49,6 +50,7 @@ async def on_message(message):
         Restart.Restart.restart()
 
     elif message.content.startswith(Constants.createCharacter):
+        data.current_player = message.author.name
         await client.send_message(message.channel, '{}, Enter your player name:'.format(message.author.name))
         data.gamestage = Data.GameStage.CHARACTER_CREATE
 
