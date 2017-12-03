@@ -15,10 +15,10 @@ class Item(GenericObject):
         }
 
     def receive(self, change):
-        baseResult = super(change)
+        baseResult = super().receive(change)
         if isinstance(baseResult, list):
             # Return the loot
             return baseResult
         #Handle peaceful interactions with characters
         if baseResult == Constants.take:
-            return [self]
+            return self
