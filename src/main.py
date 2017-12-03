@@ -83,8 +83,8 @@ data = Data.Data({
          Constants.description: "An unassuming target dummy",
          Constants.user: "NPC",
          Constants.inventory: [Item({
-                Constants.name: "Target Dummy Head",
-                Constants.description: "The head of your conquered foe",
+                Constants.name: "Head",
+                Constants.description: "The head of your conquered foe, the target dummy",
                 Constants.value: 100,
                 Constants.effect: "bludgeon",
                 Constants.health: 200,

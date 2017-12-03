@@ -9,7 +9,9 @@ class GenericObject:
         self.value = objectconfig[Constants.value]
         self.health = objectconfig[Constants.health]
         self.attack = objectconfig[Constants.attack]
-        self.inventory = objectconfig[Constants.inventory]
+        self.inventory = []
+        if Constants.inventory in objectconfig.keys:
+            self.inventory = objectconfig[Constants.inventory]
 
     def receive(self, change):
         self.health -= change[Constants.attack]

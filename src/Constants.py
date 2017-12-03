@@ -17,7 +17,7 @@ user = 'user'
 #Commands
 restart = "!restart"
 createCharacter = "!createCharacter"
-heroAction = "!hero:"
+heroAction = "!hero"
 start = "!start"
 partyAction = "!party"
 status = '!status'
