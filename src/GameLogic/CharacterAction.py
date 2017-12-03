@@ -12,7 +12,16 @@ class CharacterAction(GenericGameLogic):
         if character is None:
             await self.printMethod(message.channel, "Hero for {} does not exist!".format(message.author.name))
             return
-        item_name = input_components[1]
+        action = input_components[1]
+        # If you need to use an action
+        if action in [[Constants.action_vocabulary['item_use']['character_interact']]
+                      or [Constants.action_vocabulary['item_use']['character_interact']]]:
+            self.do_item_action(input_components, character, message)
+        else:
+            return
+
+    async def do_item_action(self,input_components, character, message):
+        item_name = input_components[2]
         target_name = input_components[2]
         target = self.data.get_from_current_room(target_name)
         item = next(iter([i for i in character.inventory if i.name == item_name] or []), None)
