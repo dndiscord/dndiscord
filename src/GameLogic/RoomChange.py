@@ -31,7 +31,8 @@ class RoomChange(GenericGameLogic):
             await self.printMethod(message.channel, "That door is locked. Use the key on it first.")
             return
 
-        self.data.current_room = door.dest
-        await self.printMethod(message.channel, "The party is now in {}.".format(door.dest.desc))
+        self.data.current_room = door.other_side(self.data.current_room)
+        door.update_desc(self.data.current_room)
+        await self.printMethod(message.channel, "The party is now in {}.".format(self.data.current_room.desc))
 
 

@@ -11,13 +11,10 @@ class Room:
         self.desc = "UNPOPULATED"
         self.doors = []
         self.objects = []
-        self.parent = None
-        if parent is not None:
-            self.parent = parent.src
-            back_door = Door(parent.name, self, parent.locked, parent.src)
-            self.doors.append(back_door) # door back where we came from
-            self.objects.append(back_door)
         self.populate()
+        if parent is not None:
+            self.doors.append(parent) # door back where we came from
+            self.objects.append(parent)
 
     def populate(self):
         num_doors = random.randint(min(1, len(self.data.doors)), min(3, len(self.data.doors)))
@@ -30,12 +27,11 @@ class Room:
             self.data.doors.remove(name)
         for name in dirs:
             door = Door(name, self, random.random() > 0.2)
-            door.description = "A door to " + door.dest.desc
             self.doors.append(door)
             self.objects.append(door)
 
     def describe(self):
-        return self.desc + " with doors " + str(list(map(lambda x: x.desc(), self.doors))) + " and keys " + str([x.door + " key" for x in self.objects if isinstance(x, Key)])
+        return self.desc + " with doors " + str(list(map(lambda x: x.description, self.doors))) + " and keys " + str([x.door + " key" for x in self.objects if isinstance(x, Key)])
 
     def show(self):
         print(self.describe())
@@ -58,10 +54,16 @@ class Door(Item):
         self.locked = locked
         self.src = src
         self.dest = dest or Room(src.data, self)
-        self.description = "A door to " + self.dest.desc
+        self.update_desc(src)
 
-    def desc(self):
-        return ["unlocked ", "locked "][int(self.locked)] + self.name
+    def update_desc(self, src):
+        self.description = ["A unlocked ", "A locked "][int(self.locked)] + "door to " + self.other_side(src).desc + " labelled " + self.name
+
+    def other_side(self, src):
+        return [self.src, self.dest][int(self.src == src)]
+
+    def side_side(self, src):
+        return [self.dest, self.src][int(self.src == src)]
 
     def show(self):
         print("door named " + self.name + " to " + self.dest.desc)
@@ -70,7 +72,7 @@ def reachable_rooms(room, keys):
     reached = [room]
     for door in room.doors:
         if not door.locked or door.name in map(lambda k: k.door, keys):
-            if door.dest != room.parent:
+            if door.dest != room:
                 reached.extend(reachable_rooms(door.dest, keys))
     return reached
 
