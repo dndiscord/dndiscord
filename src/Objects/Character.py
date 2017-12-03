@@ -8,7 +8,9 @@ class Character(GenericObject):
         self.crit = characterconfig[Constants.crit]
         self.speed = characterconfig[Constants.speed]
         self.mana = characterconfig[Constants.mana]
-        self.user = characterconfig[Constants.user]
+        self.user = ""
+        if Constants.user in characterconfig.keys():
+            self.user = characterconfig[Constants.user]
 
     def receive(self, change, data):
         baseResult = super().receive(change)

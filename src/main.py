@@ -81,7 +81,6 @@ data.current_room.objects.append(
          Constants.crit: 0,
          Constants.name: "Target_Dummy",
          Constants.description: "An unassuming target dummy",
-         Constants.user: "",
          Constants.inventory: [Item({
                 Constants.name: "Head",
                 Constants.description: "The head of your conquered foe, the target dummy",
