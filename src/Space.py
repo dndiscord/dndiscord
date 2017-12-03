@@ -8,7 +8,6 @@ from src.Objects.Key import Key
 class Room:
     def __init__(self, data, parent=None):
         self.data = data
-        self.desc = "UNPOPULATED"
         self.doors = []
         self.objects = []
         self.populate()
