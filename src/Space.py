@@ -127,14 +127,6 @@ def generate(num_keys, root):
             break
         lock = random.choice(locked)
         room = random.choice(rooms)
-        key = Key({
-                Constants.name: lock.name + "Key",
-                Constants.description: "A key to the " + lock.name + " door",
-                Constants.value: 100,
-                Constants.effect: "unlocked",
-                Constants.health: 5,
-                Constants.attack: 2,
-                Constants.inventory: []
-                }, lock.name, room)
+        key = Key(lock.name, room)
         room.objects.append(key)
 
