@@ -11,4 +11,4 @@
 - !hero [action] [item] [target] : take [action] using [item] against [target] item or character
 - !hero [action] [target] : take [action] against [target] item or character
 - !party [destination] : move the party to [destination] room
-
+- !fight : start combat between the party and npcs in the room
