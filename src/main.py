@@ -13,7 +13,7 @@ from src.Space import make_rooms
 from src.Objects.Character import Character
 from src.Data import GameStage
 from src import Constants, Data
-from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange, StatusReport
+from src.GameLogic import CreateCharacter, CharacterAction, Restart, RoomChange, StatusReport, FightCycle
 
 client = discord.Client()
 
@@ -45,8 +45,15 @@ async def on_message(message):
     elif data.gamestage == GameStage.CHARACTER_CREATE:
         await creator.getMessage(message)
 
+    elif data.gamestage == GameStage.FIGHT:
+        await fightCycle.getMessage(message, actionPrompt)
+
     elif message.content.startswith(Constants.restart):
         Restart.Restart.restart()
+
+    elif message.content.startswith(Constants.fight):
+        data.gamestage = GameStage.FIGHT
+        await fightCycle.start_cycle(message)
 
     elif message.content.startswith(Constants.createCharacter):
         data.current_player = message.author.name
@@ -96,6 +103,7 @@ creator = CreateCharacter.CreateCharacter(print_message, data)
 actionPrompt = CharacterAction.CharacterAction(print_message, data)
 statusPrompt = StatusReport.StatusReport(print_message, data)
 roomChange = RoomChange.RoomChange(print_message, data)
+fightCycle = FightCycle.FightCycle(print_message, data)
 
 #creator.assign_stats('elf', 'hunter', 'gg', 'chronular#4496')
 #creator.assign_stats('troll', 'librarian', 'quaz', 'Quaznal#8096')

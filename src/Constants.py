@@ -23,6 +23,7 @@ start = "!start"
 partyAction = "!party"
 status = '!status'
 my_status = '!mystatus'
+fight = '!fight'
 
 #Database categories
 items = 'items'

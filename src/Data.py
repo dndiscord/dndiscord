@@ -38,4 +38,10 @@ class Data:
         return next(iter([i for i in self.current_room.objects if i.name.lower() == name.lower()]), None)
 
     def get_player_characters_from_current_room(self):
-        return [u for u in self.current_room.objects if isinstance(u,Character) and not u.user == ""]
+        return [u for u in self.current_room.objects if isinstance(u,Character) and not u.is_npc()]
+
+    def get_characters_from_current_room(self):
+        return [c for c in self.current_room.objects if isinstance(c, Character)]
+
+    def get_npcs_from_current_room(self):
+        return [c for c in self.current_room.objects if isinstance(c, Character) and c.is_npc()]

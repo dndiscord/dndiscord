@@ -19,6 +19,9 @@ class Character(GenericObject):
             return baseResult
         #Handle peaceful interactions with other characters
 
+    def is_npc(self):
+        return self.user == ""
+
     def use_item(self, item, target, action, data):
         # Result contains a payload of data to apply to the target
         result = item.activate(self, True)
@@ -44,3 +47,5 @@ class Character(GenericObject):
             self.inventory.append(object)
             return event_description
 
+    def do_combat(self):
+        return "{} tried to do stuff".format(self.name)
